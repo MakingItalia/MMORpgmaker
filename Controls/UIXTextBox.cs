@@ -52,7 +52,9 @@ namespace UIXControls
         {
             base.Draw(sprite);
             p.Begin();
+            p.FillRectangle(new Rectangle(X, Y, Width, Height), Color.White);
             p.DrawRectangle(new Rectangle(X, Y, Width, Height), Color.Black);
+            
             p.End();
 
             if (!check)

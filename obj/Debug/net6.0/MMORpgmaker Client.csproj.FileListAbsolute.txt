@@ -50,3 +50,4 @@ C:\Users\Utente\Documents\GitHub\MMORpgmaker\obj\Debug\net6.0\MMORpgmaker Client
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\obj\Debug\net6.0\ref\MMORpgmaker Client.dll
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\bin\Debug\net6.0\Content\Segoe.xnb
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\bin\Debug\net6.0\Content\symb.xnb
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\bin\Debug\net6.0\Content\Background.xnb

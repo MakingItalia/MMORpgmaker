@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MMORpgmaker_Client.Enums;
 using UIXControls;
 
 namespace MMORpgmaker_Client
@@ -10,15 +11,18 @@ namespace MMORpgmaker_Client
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         UIXContainer container = new UIXContainer();
-        SpriteFont font;
-        SpriteFont Symb;
-        int count = 0;
+
+        //Game State
+        GameState gamestate = new GameState(GameState.gameState.TitleScreen);
 
         UIXButton bt;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.PreferredBackBufferWidth = 800;
+            _graphics.PreferredBackBufferHeight = 600;
+            _graphics.ApplyChanges();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -39,21 +43,17 @@ namespace MMORpgmaker_Client
             font = Content.Load<SpriteFont>("Segoe");
             Symb = Content.Load<SpriteFont>("symb");
 
+            background = Content.Load<Texture2D>("Background");
+
+
+            titleScreen = new GameScene.TitleScreen(GraphicsDevice,Content, font, Symb);
+
             //---------------  Adding Controls for testing ------- \\
             //---- BUTTON
 
-            bt = new UIXButton(GraphicsDevice, font, new Vector2(50, 100));
-            bt.Text = "Button Value: " + count;
-            bt.OnMouseDown += Bt_OnMouseDown;
-            container.Controls.Add(bt);
+
         }
 
-
-        private void Bt_OnMouseDown()
-        {
-            count++;
-            bt.Text = "Button Value: " + count;
-        }
 
         protected override void Update(GameTime gameTime)
         {
@@ -63,9 +63,13 @@ namespace MMORpgmaker_Client
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
 
-            container.Update(gameTime, ms, kb);
+            if (gamestate._GameState == GameState.gameState.TitleScreen)
+            {
+                // container.Update(gameTime, ms, kb);
+                titleScreen.Update(gameTime, kb, ms);
+            }
+
 
             base.Update(gameTime);
         }
@@ -74,10 +78,21 @@ namespace MMORpgmaker_Client
         {
             GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
-            _spriteBatch.Begin();
-            container.Draw(_spriteBatch);
-            _spriteBatch.End();
+
+            if (gamestate._GameState == GameState.gameState.TitleScreen)
+            {
+                _spriteBatch.Begin();
+                _spriteBatch.Draw(background, new Rectangle(0, 0, GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight), Color.White);
+                _spriteBatch.End();
+            }
+
+            if (gamestate._GameState == GameState.gameState.TitleScreen)
+            {
+                titleScreen.Draw(_spriteBatch);
+            }
+
+
+            
 
             base.Draw(gameTime);
         }
