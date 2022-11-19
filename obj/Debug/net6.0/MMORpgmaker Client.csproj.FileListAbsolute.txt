@@ -48,3 +48,5 @@ C:\Users\Utente\Documents\GitHub\MMORpgmaker\obj\Debug\net6.0\refint\MMORpgmaker
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\obj\Debug\net6.0\MMORpgmaker Client.pdb
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\obj\Debug\net6.0\MMORpgmaker Client.genruntimeconfig.cache
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\obj\Debug\net6.0\ref\MMORpgmaker Client.dll
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\bin\Debug\net6.0\Content\Segoe.xnb
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\bin\Debug\net6.0\Content\symb.xnb
