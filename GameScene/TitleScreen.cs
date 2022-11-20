@@ -16,10 +16,12 @@ namespace MMORpgmaker_Client.GameScene
         UIXContainer container = new UIXContainer();
         UIXButton bt;
         UIXTextBox tx_user;
+        UIXTextBox tx_pass;
         GraphicsDevice d;
         SpriteFont font, symb;
         Texture2D background;
         ContentManager Content;
+ 
 
         public TitleScreen(GraphicsDevice dev,ContentManager _Content,SpriteFont _font,SpriteFont _symb)
         {
@@ -28,23 +30,33 @@ namespace MMORpgmaker_Client.GameScene
             symb = _symb;
             Content = _Content;
 
-            bt = new UIXButton(d, font, new Vector2(50, 100));
-            bt.Text = "Button";
+            //Button
+            bt = new UIXButton(d, font, new Vector2(370, 485));
+            bt.Text = "Login";
+            bt.OnMouseDown += Bt_OnMouseDown;
             container.Controls.Add(bt);
 
-            tx_user = new UIXTextBox(d, font, new Vector2(100, 150));
+
+            //TextBox
+            tx_user = new UIXTextBox(d, font, new Vector2(370, 420));
             container.Controls.Add(tx_user);
+
+            tx_pass = new UIXTextBox(d, font, new Vector2(370, 450));
+            tx_pass.IsPassword = true;
+            container.Controls.Add(tx_pass);
+
 
             background = Content.Load<Texture2D>("Background");
         }
 
-
+        private void Bt_OnMouseDown()
+        {
+            
+        }
 
         public void Update(GameTime gameTime,KeyboardState kb,MouseState ms)
         {
             container.Update(gameTime, ms, kb);
-            
-
 
         }
 
@@ -53,11 +65,15 @@ namespace MMORpgmaker_Client.GameScene
         {
             spriteBatch.Begin();
 
-            
-            //spriteBatch.Draw(background, new Rectangle(0, 0, d.PresentationParameters.BackBufferWidth, d.PresentationParameters.BackBufferHeight), Color.White);
-            container.Draw(spriteBatch);
-            
+            spriteBatch.DrawString(font, "Username", new Vector2(291, 421), Color.Black);
+            spriteBatch.DrawString(font, "Username", new Vector2(290, 420), Color.Red);
 
+            spriteBatch.DrawString(font, "Password", new Vector2(291, 451), Color.Red);
+            spriteBatch.DrawString(font, "Password", new Vector2(290, 450), Color.Red);
+
+            container.Draw(spriteBatch);
+
+         
             spriteBatch.End();
         }
 
