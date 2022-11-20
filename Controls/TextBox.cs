@@ -28,7 +28,7 @@ namespace MMORpgmaker.Controls
         private bool password = false;
         public string passwords;
         bool enabled = true;
-
+        int counter2 = 0;
 
         public bool Enabled { get => enabled; set => enabled = value; }
         
@@ -96,15 +96,17 @@ namespace MMORpgmaker.Controls
 
         void TextBox_OnMouseDown()
         {
-            if (Enabled)
+            if (Enabled && counter2 == 0) 
             {
                 if (focus)
                 {
                     focus = false; caret = true;
+                    counter2 = 15;
                 }
                 else
                 {
                     focus = true; caret = false;
+                    counter2 = 15;
                 }
             }
 
@@ -145,6 +147,9 @@ namespace MMORpgmaker.Controls
                 counter = 0;
             }
 
+            if (counter2 > 0)
+                counter2--;
+
 
             if (ms.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
             {
@@ -155,6 +160,16 @@ namespace MMORpgmaker.Controls
                     OnMouseDown();
                 }
             }
+
+
+            //If mouse leave from Controls, Automatically unfocus
+            Rectangle r2 = new Rectangle((int)Position.X, (int)Position.Y, 230, 18);
+            if(!r2.Contains(new Point(ms.X,ms.Y)))
+            {
+                focus = false;
+                caret = false;
+            }
+
 
             if (focus)
             {
