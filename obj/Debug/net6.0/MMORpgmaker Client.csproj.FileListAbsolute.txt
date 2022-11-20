@@ -23,6 +23,9 @@ C:\Users\Utente\Documents\GitHub\MMORpgmaker Client\obj\Debug\net6.0\refint\MMOR
 C:\Users\Utente\Documents\GitHub\MMORpgmaker Client\obj\Debug\net6.0\MMORpgmaker Client.pdb
 C:\Users\Utente\Documents\GitHub\MMORpgmaker Client\obj\Debug\net6.0\MMORpgmaker Client.genruntimeconfig.cache
 C:\Users\Utente\Documents\GitHub\MMORpgmaker Client\obj\Debug\net6.0\ref\MMORpgmaker Client.dll
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\bin\Debug\net6.0\Content\Background.xnb
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\bin\Debug\net6.0\Content\Segoe.xnb
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\bin\Debug\net6.0\Content\symb.xnb
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\bin\Debug\net6.0\MMORpgmaker Client.exe
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\bin\Debug\net6.0\MMORpgmaker Client.deps.json
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\bin\Debug\net6.0\MMORpgmaker Client.runtimeconfig.json
@@ -48,6 +51,3 @@ C:\Users\Utente\Documents\GitHub\MMORpgmaker\obj\Debug\net6.0\refint\MMORpgmaker
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\obj\Debug\net6.0\MMORpgmaker Client.pdb
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\obj\Debug\net6.0\MMORpgmaker Client.genruntimeconfig.cache
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\obj\Debug\net6.0\ref\MMORpgmaker Client.dll
-C:\Users\Utente\Documents\GitHub\MMORpgmaker\bin\Debug\net6.0\Content\Segoe.xnb
-C:\Users\Utente\Documents\GitHub\MMORpgmaker\bin\Debug\net6.0\Content\symb.xnb
-C:\Users\Utente\Documents\GitHub\MMORpgmaker\bin\Debug\net6.0\Content\Background.xnb

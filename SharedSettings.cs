@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using MMORpgmaker.Controls;
+using MMORpgmaker_Client.Controls;
 using MMORpgmaker_Client.GameScene;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,9 @@ namespace MMORpgmaker_Client
         //Main Background
         Texture2D background;
 
-
+        Msgbox msg;
+        Message m;
+        SkinSystem skin;
+        Dialog dlg;
     }
 }

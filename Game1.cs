@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MMORpgmaker.Controls;
+using MMORpgmaker_Client.Controls;
 using MMORpgmaker_Client.Enums;
 using UIXControls;
 
@@ -48,10 +50,14 @@ namespace MMORpgmaker_Client
 
             titleScreen = new GameScene.TitleScreen(GraphicsDevice,Content, font, Symb);
 
+            skin = new SkinSystem(GraphicsDevice, "Eau"); //Skin Folder
+
             //---------------  Adding Controls for testing ------- \\
             //---- BUTTON
 
-
+            m = new Message(skin, GraphicsDevice, font, "Unkow Error!");
+            msg = new Msgbox(new Vector2(250, 300), skin, font, this);
+            msg.refereced = m;
         }
 
 
@@ -68,9 +74,10 @@ namespace MMORpgmaker_Client
             {
                 // container.Update(gameTime, ms, kb);
                 titleScreen.Update(gameTime, kb, ms);
+                msg.Update(gameTime, kb, ms);
             }
 
-
+            m.Update(gameTime, kb, ms);
             base.Update(gameTime);
         }
 
@@ -81,18 +88,17 @@ namespace MMORpgmaker_Client
 
             if (gamestate._GameState == GameState.gameState.TitleScreen)
             {
-                _spriteBatch.Begin();
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
                 _spriteBatch.Draw(background, new Rectangle(0, 0, GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight), Color.White);
+                
+                msg.Draw(_spriteBatch);
+
+                m.Draw(_spriteBatch);
                 _spriteBatch.End();
             }
 
-            if (gamestate._GameState == GameState.gameState.TitleScreen)
-            {
-                titleScreen.Draw(_spriteBatch);
-            }
+  
 
-
-            
 
             base.Draw(gameTime);
         }
