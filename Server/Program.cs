@@ -174,7 +174,7 @@ namespace MMORpgmakerServer
                         {
                             Notice("Tentativo di acceso da parte di '" + ((PacketData)t).Argument1 + "'   IP: [ " + clientIP + " ]");
 
-                            bool check = false; ;/* = Login(((PacketData)t).Argument1, ((PacketData)t).Argument2);*/
+                            bool check = Login(((PacketData)t).Argument1, ((PacketData)t).Argument2);
 
                             if (check)
                             {
@@ -188,12 +188,12 @@ namespace MMORpgmakerServer
                                 clientStream.Flush();
                                 clientStream.Write(data, 0, data.Length);
 
-                                Notice("Accesso eseguito da " + p.Argument1);
+                                Notice("Accesso eseguito da " + ((PacketData)t).Argument1);
                             }
                             else
                             {
                                 clientStream.WriteByte(0x02);
-                                Warining("Accesso rifiutato per '" + p.Argument1 + "'    IP: [ " + clientIP + " ]");
+                                Warining("Accesso rifiutato per '" + ((PacketData)t).Argument1 + "'    IP: [ " + clientIP + " ]");
                             }
                         }
                         #endregion
@@ -234,6 +234,45 @@ namespace MMORpgmakerServer
 
             Thread.CurrentThread.Interrupt();
 
+        }
+
+
+        public bool Login(string user, string pass)
+        {
+            bool val = false;
+            try
+            {
+
+                MySqlConnection conn;
+                string connection = $"server={mysql_host};uid={mysql_user};pwd={mysql_pass};database={mysql_db}";
+
+                conn = new MySqlConnection(connection);
+                conn.Open();
+
+                MySqlCommand cmd;
+                cmd = new MySqlCommand($"select * from login where username='{user}';", conn);
+                MySqlDataReader rd = cmd.ExecuteReader();
+
+                rd.Read();
+
+                if (rd.GetString("username") == user && rd.GetString("password") == pass)
+                {
+                    val = true;
+
+                }
+
+
+
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Error(ex.Message);
+                val = false;
+            }
+
+            return val;
         }
 
 

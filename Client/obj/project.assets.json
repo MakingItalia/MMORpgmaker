@@ -54,6 +54,16 @@
             "rid": "win-x86"
           }
         }
+      },
+      "Packet/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Packet.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Packet.dll": {}
+        }
       }
     }
   },
@@ -93,12 +103,18 @@
         "runtimes/win-x86/native/SDL2.dll",
         "runtimes/win-x86/native/soft_oal.dll"
       ]
+    },
+    "Packet/1.0.0": {
+      "type": "project",
+      "path": "../Packet/Packet.csproj",
+      "msbuildProject": "../Packet/Packet.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
       "MonoGame.Content.Builder.Task >= 3.8.1.303",
-      "MonoGame.Framework.DesktopGL >= 3.8.1.303"
+      "MonoGame.Framework.DesktopGL >= 3.8.1.303",
+      "Packet >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -132,7 +148,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Utente\\Documents\\GitHub\\MMORpgmaker\\Packet\\Packet.csproj": {
+              "projectPath": "C:\\Users\\Utente\\Documents\\GitHub\\MMORpgmaker\\Packet\\Packet.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

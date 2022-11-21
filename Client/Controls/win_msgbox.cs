@@ -11,6 +11,8 @@ using MMORpgmaker_Client.Controls;
 using MMORpgmaker_Client;
 using UIXControls;
 using MMORpgmaker.Controls;
+using Packet;
+using MMORpgmaker.Helper;
 
 namespace MMORpgmaker_Client.Controls 
 {
@@ -84,11 +86,11 @@ namespace MMORpgmaker_Client.Controls
 
         public bool OkButtonPressed = false;
 
-       // public PacketData paket = new PacketData();
+        public PacketData paket = new PacketData();
 
-        //GameClient Client;
+        GameClient Client;
 
-        public Msgbox(Vector2 position,SkinSystem skin,SpriteFont font,/*GameClient c,*/Game1 game)
+        public Msgbox(Vector2 position,SkinSystem skin,SpriteFont font,GameClient c,Game1 game)
         {
             Position = position;
             Skin = skin;
@@ -114,7 +116,7 @@ namespace MMORpgmaker_Client.Controls
             psw.passwords = "server";
             psw.IsPassword = true;
 
-           // Client = c;
+            Client = c;
 
             Game = game;
         }
@@ -125,7 +127,7 @@ namespace MMORpgmaker_Client.Controls
         {
             refereced.ShowMessage();
 
-            /*
+            
             //--- Nuovo
             
             if (Client != null && down  == false)
@@ -138,14 +140,18 @@ namespace MMORpgmaker_Client.Controls
                     refereced.ShowMessage();
                     OkButtonPressed = true;
 
+                    //Da continuare qui
+                    //Ottenere l'ID dell'account
+
                     PacketData p = new PacketData();
                     p.Command = (uint)PacketHeader.HeaderCommand.ACT_GET_ACC_ID;
                     p.Argument1 = tx.Text;
 
-                    object t = Client.SendGetPacket(p);
                     
-                    paket = (PacketData)t;
-                    account_id = Convert.ToInt16(paket.Argument1);
+                    //object t = Client.SendGetPacket(p);
+                    
+                    //paket = (PacketData)t;
+                    //account_id = Convert.ToInt16(paket.Argument1);
 
                 }
                 else
@@ -158,7 +164,7 @@ namespace MMORpgmaker_Client.Controls
 
             //------
 
-            */
+            
         }
 
 

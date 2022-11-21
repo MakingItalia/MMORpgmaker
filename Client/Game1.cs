@@ -2,8 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MMORpgmaker.Controls;
+using MMORpgmaker.Helper;
 using MMORpgmaker_Client.Controls;
 using MMORpgmaker_Client.Enums;
+using System.Net.Sockets;
 using UIXControls;
 
 namespace MMORpgmaker_Client
@@ -13,6 +15,14 @@ namespace MMORpgmaker_Client
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         UIXContainer container = new UIXContainer();
+        string ip = "127.0.0.1";
+        bool serverstatus = false;
+        int port = 6400;
+        Utils util = new Utils();
+        NetworkStream ns;
+        Camera2d cam = new Camera2d();
+        int plx = 100, ply = 100;
+        public GameClient client = new GameClient("127.0.0.1", 6400);
 
         //Game State
         GameState gamestate = new GameState(GameState.gameState.TitleScreen);
@@ -56,7 +66,7 @@ namespace MMORpgmaker_Client
             //---- BUTTON
 
             m = new Message(skin, GraphicsDevice, font, "Unkow Error!");
-            msg = new Msgbox(new Vector2(250, 300), skin, font, this);
+            msg = new Msgbox(new Vector2(250, 300), skin, font,client, this);
             msg.refereced = m;
         }
 
