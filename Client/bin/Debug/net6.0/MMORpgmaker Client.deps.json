@@ -9,7 +9,8 @@
       "MMORpgmaker Client/1.0.0": {
         "dependencies": {
           "MonoGame.Content.Builder.Task": "3.8.1.303",
-          "MonoGame.Framework.DesktopGL": "3.8.1.303"
+          "MonoGame.Framework.DesktopGL": "3.8.1.303",
+          "Packet": "1.0.0"
         },
         "runtime": {
           "MMORpgmaker Client.dll": {}
@@ -65,6 +66,11 @@
             "fileVersion": "0.0.0.0"
           }
         }
+      },
+      "Packet/1.0.0": {
+        "runtime": {
+          "Packet.dll": {}
+        }
       }
     }
   },
@@ -87,6 +93,11 @@
       "sha512": "sha512-eGYhqn0n1olk8MNYeE9EuBmoNNECN1T18rPMaQpkzsEQ0H3nVyFPXC+uCo78v5pi5juQpJ3PSFnSkjzZJ1U58A==",
       "path": "monogame.framework.desktopgl/3.8.1.303",
       "hashPath": "monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
+    },
+    "Packet/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }
