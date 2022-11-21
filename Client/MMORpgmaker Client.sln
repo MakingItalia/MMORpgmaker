@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMORpgmaker Client", "MMORpgmaker Client.csproj", "{15132FFF-8D22-4A19-8F56-5BE1CF1C2B0A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMORpgmaker Server", "..\MMORpgmaker-Server\Server\MMORpgmaker Server.csproj", "{BC367ED5-F896-44C3-A01A-1FD543C3AF88}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Packet", "..\MMORpgmaker-Server\Packet\Packet.csproj", "{D9FDD242-40ED-492C-956D-E6B0A4F71D33}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{15132FFF-8D22-4A19-8F56-5BE1CF1C2B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15132FFF-8D22-4A19-8F56-5BE1CF1C2B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15132FFF-8D22-4A19-8F56-5BE1CF1C2B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15132FFF-8D22-4A19-8F56-5BE1CF1C2B0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC367ED5-F896-44C3-A01A-1FD543C3AF88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC367ED5-F896-44C3-A01A-1FD543C3AF88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC367ED5-F896-44C3-A01A-1FD543C3AF88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC367ED5-F896-44C3-A01A-1FD543C3AF88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9FDD242-40ED-492C-956D-E6B0A4F71D33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9FDD242-40ED-492C-956D-E6B0A4F71D33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9FDD242-40ED-492C-956D-E6B0A4F71D33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9FDD242-40ED-492C-956D-E6B0A4F71D33}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B467C946-6898-4AE6-A2D3-3C4DE00F2123}
+	EndGlobalSection
+EndGlobal
