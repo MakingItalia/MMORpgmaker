@@ -35,7 +35,7 @@ namespace MMORpgmakerServer
         public void Main()
         {
             //connessione = "server=" + host + ";uid=" + user + ";pwd=" + psw + ";database=" + db;
-            Console.WriteLine("Hello World");
+            Crediti();
            
             Console.ReadKey();
         }
