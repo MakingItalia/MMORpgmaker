@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using Packet;
+using System.Net;
 using System.Net.Sockets;
 
 MMORpgmakerServer.Server s = new MMORpgmakerServer.Server();
@@ -32,6 +33,23 @@ namespace MMORpgmakerServer
 
         PacketData p = new PacketData();
         NetworkStream clientStream;
+        public List<Cliente> Clients = new List<Cliente>();
+
+        /// <summary>
+        /// Client Structure
+        /// </summary>
+        public struct Cliente
+        {
+            public short id;
+            public string ip;
+            public TcpClient sock;
+            public string username;
+            public int accid;
+            public int char_id;
+            public string map_loc;
+            public float pos_x;
+            public float pos_y;
+        }
 
 
         public void Main()
@@ -40,15 +58,253 @@ namespace MMORpgmakerServer
             Back = Console.BackgroundColor;
             Fore = Console.ForegroundColor;
 
-            
-            CheckConfig();
             Crediti();
+
+            CheckConfig();
+            
 
             Notice("Preparing Server");
 
             ShowPacketVer();
 
+            MySqlConnection conn;
+            string connection = $"server={mysql_host};uid={mysql_user};pwd={mysql_pass};database={mysql_db}";
+            cn = new MySqlConnection();
+            cn.ConnectionString = connection;
+
+            try
+            {
+                cn.Open();
+            }
+            catch
+            {
+                Error($"Can't connect to MySQL server on IP: {host_ip}:{host_port}");
+            }
+
+
+            IPAddress ip = IPAddress.Any;
+            // IPEndPoint host = new IPEndPoint(IPAddress.Parse("25.87.68.41"), 1234);
+            IPEndPoint host = new IPEndPoint(IPAddress.Parse(host_ip), host_port);
+            tcpListener = new TcpListener(host);
+            listenThread = new Thread(new ThreadStart(ListenForClients));
+            listenThread.Start();
+
+            //ConnectToCoreClient();
+
             Console.ReadKey();
+        }
+
+
+
+        /// <summary>
+        /// Listen all connection
+        /// and separe socket in new Thread
+        /// </summary>
+        public void ListenForClients()
+        {
+            tcpListener.Start();
+
+            Notice("Server is Online");
+            GetUserOnline();
+
+            while (true)
+            {
+
+                tcpListener.Start();
+                //blocks until a client has connected to the server
+                TcpClient client = tcpListener.AcceptTcpClient();
+
+                //create a thread to handle communication 
+                //with connected client
+                Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClientComm));
+                clientThread.Start(client);
+                Notice("Client Connesso...");
+
+
+            }
+
+
+        }
+
+
+        /// <summary>
+        /// Listening clients on Thread
+        /// </summary>
+        /// <param name="client">Client Object</param>
+        public void HandleClientComm(object client)
+        {
+            bool whilestatus = true;
+            TcpClient tcpClient = (TcpClient)client;
+            clientStream = tcpClient.GetStream();
+            string clientIP = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString();
+
+
+            Cliente c = new Cliente();
+            c.sock = tcpClient;
+            c.id = tcpClient.Client.Ttl;
+            c.ip = clientIP;
+            c.pos_x = 100;
+            c.pos_y = 100;
+            c.map_loc = "lobby";
+            Clients.Add(c);
+
+
+
+            Notice($"Connessione accettata da parte di [{clientIP}]");
+            Notice($"User Connected: {Clients.Count}");
+
+            while (whilestatus)
+            {
+                try
+                {
+
+                    byte[] data = new byte[110]; //120 byte 
+                    int byteres = clientStream.Read(data, 0, data.Length);
+
+                    object t = DisassemblyPacket(data);
+
+                    clientStream.Flush();
+
+                    #region PacketData
+
+                    if (t.GetType() == typeof(PacketData))
+                    {
+                        #region ACT LOGIN
+                        if (((PacketData)t).Command == (uint)Packet.PacketHeader.HeaderCommand.ACT_LOGIN)
+                        {
+                            Notice("Tentativo di acceso da parte di '" + ((PacketData)t).Argument1 + "'   IP: [ " + clientIP + " ]");
+
+                            bool check = false; ;/* = Login(((PacketData)t).Argument1, ((PacketData)t).Argument2);*/
+
+                            if (check)
+                            {
+                                PacketData p = new PacketData();
+                                p.Command = (uint)PacketHeader.HeaderCommand.ACT_LOGIN;
+                                p.Argument1 = "true";
+
+                                data = p.Serialize();
+                                data = AssemblyPacket(PacketHeader.PacketType.PacketData, data);
+
+                                clientStream.Flush();
+                                clientStream.Write(data, 0, data.Length);
+
+                                Notice("Accesso eseguito da " + p.Argument1);
+                            }
+                            else
+                            {
+                                clientStream.WriteByte(0x02);
+                                Warining("Accesso rifiutato per '" + p.Argument1 + "'    IP: [ " + clientIP + " ]");
+                            }
+                        }
+                        #endregion
+
+
+
+  
+
+        
+                    }
+
+
+                    #endregion
+
+
+
+
+                    Console.WriteLine();
+
+
+                }
+                catch
+                {
+
+                    var cli = Clients.Where(x => x.ip == clientIP).FirstOrDefault();
+                    Clients.Remove(cli);
+                    Notice($"TTL: {cli.id} [{cli.ip}] Client Disconnesso...");
+                    tcpClient.Close();
+                    //Thread.CurrentThread.Abort();
+                    whilestatus = false;
+                    Notice($"User Connected: {Clients.Count}");
+
+
+                }
+
+
+            }
+
+            Thread.CurrentThread.Interrupt();
+
+        }
+
+
+        /// <summary>
+        /// EN
+        /// Assembly a Packet inser on Header at offset 0
+        /// type of packet assembled
+        /// IT
+        /// Assembla un Pacchetto inserendo nell'Header a posizione 0
+        /// il tipo di pacchetto che viene assemblato
+        /// </summary>
+        /// <param name="type">Tipo di pacchetto</param>
+        /// <param name="data">array serializato</param>
+        /// <returns>Array Serializzato con Header</returns>
+        byte[] AssemblyPacket(PacketHeader.PacketType type, byte[] data)
+        {
+
+            byte[] final_send = new byte[data.Length + 1];
+
+            Array.Copy(data, 0, final_send, 1, final_send.Length - 1);
+
+            //Assign type of packet
+            final_send[0] = (byte)type;
+
+            return final_send;
+        }
+
+
+        /// <summary>
+        /// EN
+        /// Disassemble a packet of bytes
+        /// Then get type and return structure
+        /// IT
+        /// Disassembla un pacchetto di bytes
+        /// Ne ricava il tipo e restutisce la struttura
+        /// </summary>
+        /// <param name="data">Buffer</param>
+        /// <returns>Tipo Disassemblato in Object</returns>
+        object DisassemblyPacket(byte[] data)
+        {
+
+            object ret = null;
+            byte[] unpacked = new byte[120];
+
+            if (data[0] == (byte)PacketHeader.PacketType.PacketData)
+            {
+
+                Array.Copy(data, 1, unpacked, 0, data.Length - 1);
+                ret = new PacketData();
+                PacketData p = new PacketData();
+                p.Deserialize(ref unpacked);
+
+                ret = new PacketData();
+                ret = p;
+
+            }
+
+            if (data[0] == (byte)PacketHeader.PacketType.CharPacket)
+            {
+                Array.Copy(data, 1, unpacked, 0, data.Length - 1);
+                ret = new CharPaket();
+                CharPaket p = new CharPaket();
+                p.Deserialize(ref unpacked);
+
+                ret = new CharPaket();
+                ret = p;
+            }
+
+
+
+            return ret;
         }
 
 
@@ -121,6 +377,7 @@ namespace MMORpgmakerServer
                                 break;
                         }
                     }
+
                 }
 
                 Notice("Configuratioin loaded.");
@@ -252,15 +509,10 @@ namespace MMORpgmakerServer
             Notice("Writing configuration files...");
 
             StreamWriter sw;
-            if (File.Exists(Environment.CurrentDirectory + @"\data\config.txt"))
-            {
-                sw = new StreamWriter(Environment.CurrentDirectory + @"\data\config.txt");
-            }
-            else
-            {
+            
                 File.Create(Environment.CurrentDirectory + @"\data\config.txt");
                 sw = new StreamWriter(Environment.CurrentDirectory + @"\data\config.txt");
-            }
+           
 
             sw.WriteLine($"server_ip:{_ip}");
             sw.WriteLine($"server_port:{port}");
@@ -339,6 +591,14 @@ namespace MMORpgmakerServer
 
         }
 
+
+        /// <summary>
+        /// Print Number of all Clients Connected
+        /// </summary>
+        public void GetUserOnline()
+        {
+            Console.WriteLine("User Connected: " + Clients.Count);
+        }
 
 
         /// <summary>
