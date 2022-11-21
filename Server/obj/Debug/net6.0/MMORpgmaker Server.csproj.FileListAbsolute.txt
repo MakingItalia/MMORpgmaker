@@ -85,7 +85,6 @@ C:\Users\Utente\Documents\GitHub\MMORpgmaker-Server\Server\obj\Debug\net6.0\MMOR
 C:\Users\Utente\Documents\GitHub\MMORpgmaker-Server\Server\obj\Debug\net6.0\MMORpgmaker Server.genruntimeconfig.cache
 C:\Users\Utente\Documents\GitHub\MMORpgmaker-Server\Server\obj\Debug\net6.0\ref\MMORpgmaker Server.dll
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\Server\bin\Debug\net6.0\data\chars.sql
-C:\Users\Utente\Documents\GitHub\MMORpgmaker\Server\bin\Debug\net6.0\data\config.txt
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\Server\bin\Debug\net6.0\data\login.sql
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\Server\bin\Debug\net6.0\MMORpgmaker Server.exe
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\Server\bin\Debug\net6.0\MMORpgmaker Server.deps.json
@@ -121,3 +120,5 @@ C:\Users\Utente\Documents\GitHub\MMORpgmaker\Server\obj\Debug\net6.0\refint\MMOR
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\Server\obj\Debug\net6.0\MMORpgmaker Server.pdb
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\Server\obj\Debug\net6.0\MMORpgmaker Server.genruntimeconfig.cache
 C:\Users\Utente\Documents\GitHub\MMORpgmaker\Server\obj\Debug\net6.0\ref\MMORpgmaker Server.dll
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\Server\bin\Debug\net6.0\Packet.dll
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\Server\bin\Debug\net6.0\Packet.pdb
