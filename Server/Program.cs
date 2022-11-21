@@ -19,11 +19,11 @@ namespace MMORpgmakerServer
 
         string host_ip;
         int host_port = 6500;
-        string mysql_host = "127.0.0.1";
+        string mysql_host = "";
         int mysql_host_port = 3306;
-        string mysql_user = "root";
-        string mysql_pass = "abc60606060";
-        string mysql_db = "mmorpgmaker";
+        string mysql_user = "";
+        string mysql_pass = "";
+        string mysql_db = "";
         ConsoleColor Fore = ConsoleColor.Red;
         ConsoleColor Back = ConsoleColor.Black;
 
