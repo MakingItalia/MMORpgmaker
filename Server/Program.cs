@@ -54,7 +54,7 @@ namespace MMORpgmakerServer
 
         public void Main()
         {
-            //connessione = "server=" + host + ";uid=" + user + ";pwd=" + psw + ";database=" + db;
+            
             Back = Console.BackgroundColor;
             Fore = Console.ForegroundColor;
 
