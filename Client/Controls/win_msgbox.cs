@@ -128,35 +128,41 @@ namespace MMORpgmaker_Client.Controls
             refereced.ShowMessage();
 
             
-            //--- Nuovo
-            
+            // Try to login          
             if (Client != null && down  == false)
             {
-                Client.Connect();
+                //Connect to server
+                Client.Connect(); 
+
+                //Send Login data Packet
                 bool check = Client.Login(tx.Text, psw.passwords);
+                
+                //Checking
                 if (check)
                 {
                     refereced.MessageText = "Login Succesfull";
                     refereced.ShowMessage();
                     OkButtonPressed = true;
 
-                    //Da continuare qui
-                    //Ottenere l'ID dell'account
-
+                    
+                    //Send packet request account id
                     PacketData p = new PacketData();
                     p.Command = (uint)PacketHeader.HeaderCommand.ACT_GET_ACC_ID;
                     p.Argument1 = tx.Text;
 
+                    //Send Packet and Get packet from server
+                    object t = Client.SendGetPacket(p);
+
+                    //Convert object to PacketData
+                    paket = (PacketData)t;        
                     
-                    //object t = Client.SendGetPacket(p);
-                    
-                    //paket = (PacketData)t;
-                    //account_id = Convert.ToInt16(paket.Argument1);
+                    //set account id
+                    account_id = Convert.ToInt16(paket.Argument1);
 
                 }
                 else
                 {
-                    refereced.MessageText = "Wrong username or password. Try Again.";
+                    refereced.MessageText = "Wrong username or password.";
                     refereced.ShowMessage();
                 }
                 down = true;

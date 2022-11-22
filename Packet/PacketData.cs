@@ -138,17 +138,44 @@ namespace Packet
     {
         public enum HeaderCommand : uint
         {
+            /// <summary>
+            /// Request Login
+            /// </summary>
             ACT_LOGIN = 0x41,
+            /// <summary>
+            /// Message
+            /// </summary>
             ACT_MSG = 0x15,
             ACT_GET_P2LOC = 0x23,
             ACT_REQ_ROOM = 0x44,
             ACT_GET_ROOM = 0x45,
+            /// <summary>
+            /// Char Death
+            /// </summary>
             ACT_CHAR_DEATH = 0x40,
-            ACT_GET_ACC_ID = 0x16,  //Get Account ID
-            ACT_REC_ACC_ID = 0x17, //Riceve le informazioni
+            /// <summary>
+            /// Request GET Account ID
+            /// </summary>
+            ACT_GET_ACC_ID = 0x16,
+            /// <summary>
+            /// Recive Account ID
+            /// </summary>
+            ACT_REC_ACC_ID = 0x17, 
+            /// <summary>
+            /// Get Char
+            /// </summary>
             ACT_GET_CHAR = 0x18,
+            /// <summary>
+            /// Char is Empty
+            /// </summary>
             CHAR_EMPTY = 0x19,
+            /// <summary>
+            /// Count Char per account
+            /// </summary>
             ACT_COUNT_CHAR = 0x20,
+            /// <summary>
+            /// Request get Char Count
+            /// </summary>
             ACT_GET_CHARCOUNT = 0x21,
             ACT_CREATE_CHAR = 0x22,
             ACT_CONFIRM = 0x50,
@@ -159,7 +186,13 @@ namespace Packet
 
         public enum PacketType : byte
         {
+            /// <summary>
+            /// Packet Data
+            /// </summary>
             PacketData = 0,
+            /// <summary>
+            /// Char Packet
+            /// </summary>
             CharPacket = 1
         }
     }

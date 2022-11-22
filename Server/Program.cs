@@ -192,17 +192,61 @@ namespace MMORpgmakerServer
                             }
                             else
                             {
-                                clientStream.WriteByte(0x02);
+                                PacketData p = new PacketData();
+                                p.Command = (uint)PacketHeader.HeaderCommand.ACT_LOGIN;
+                                p.Argument1 = "false";
+                                data = p.Serialize();
+                                data = AssemblyPacket(PacketHeader.PacketType.PacketData, data);
+
+                                clientStream.Flush();
+                                clientStream.Write(data, 0, data.Length);
+                                //clientStream.WriteByte(0x02);
                                 Warining("Accesso rifiutato per '" + ((PacketData)t).Argument1 + "'    IP: [ " + clientIP + " ]");
                             }
                         }
                         #endregion
 
 
+                        #region GET ACCOUNT ID
+                        if (((PacketData)t).Command == (uint)Packet.PacketHeader.HeaderCommand.ACT_GET_ACC_ID)
+                        {
+#if DEBUG
+                            Debug("Richiesta di ottenere account id con user " + ((PacketData)t).Argument1);
+#endif
+                            try
+                            {
+                                //----
+                                MySqlCommand cmd;
+                                cmd = new MySqlCommand($"select * from login where username='{((PacketData)t).Argument1}';", cn);
+                                MySqlDataReader rd = cmd.ExecuteReader();
+                                rd.Read();
+                                //----
 
-  
+                                p = new Packet.PacketData();
+                                p.Command = (uint)Packet.PacketHeader.HeaderCommand.ACT_REC_ACC_ID;
+                                p.Argument1 = rd.GetInt16("id").ToString();
 
-        
+                                data = p.Serialize();
+                                data = AssemblyPacket(PacketHeader.PacketType.PacketData, data);
+
+                                rd.Close();
+
+                                clientStream.Write(data, 0, data.Length);
+                                clientStream.Flush();
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Error(ex.Message);
+                            }
+
+                        }
+
+                        #endregion
+
+
+
+
                     }
 
 
