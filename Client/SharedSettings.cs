@@ -18,12 +18,18 @@ namespace MMORpgmaker_Client
 
         //Scene
         TitleScreen titleScreen;
+        CharSelect charselection;
 
         //Main Background
         Texture2D background;
 
         Msgbox msg;
-        Message m;
+
+        /// <summary>
+        /// Global MessageBox
+        /// </summary>
+        public Message m;
+
         SkinSystem skin;
         Dialog dlg;
     }

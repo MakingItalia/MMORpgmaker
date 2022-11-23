@@ -13,6 +13,8 @@ using UIXControls;
 using MMORpgmaker.Controls;
 using Packet;
 using MMORpgmaker.Helper;
+using MMORpgmaker_Client.Enums;
+
 
 namespace MMORpgmaker_Client.Controls 
 {
@@ -88,6 +90,7 @@ namespace MMORpgmaker_Client.Controls
 
         public PacketData paket = new PacketData();
 
+        GameState g;
         GameClient Client;
 
         public Msgbox(Vector2 position,SkinSystem skin,SpriteFont font,GameClient c,Game1 game)
@@ -159,6 +162,9 @@ namespace MMORpgmaker_Client.Controls
                     //set account id
                     account_id = Convert.ToInt16(paket.Argument1);
 
+                    //SiwtchScene
+                    Game.gamestate._GameState = GameState.gameState.CharSelection;
+                    Game.SwitchScene(Game.gamestate);
                 }
                 else
                 {

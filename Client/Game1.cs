@@ -18,14 +18,14 @@ namespace MMORpgmaker_Client
         string ip = "127.0.0.1";
         bool serverstatus = false;
         int port = 6400;
-        Utils util = new Utils();
+        public Utils util = new Utils();
         NetworkStream ns;
-        Camera2d cam = new Camera2d();
+        public Camera2d cam = new Camera2d();
         int plx = 100, ply = 100;
         public GameClient client = new GameClient("127.0.0.1", 6400);
 
         //Game State
-        GameState gamestate = new GameState(GameState.gameState.TitleScreen);
+        public GameState gamestate = new GameState(GameState.gameState.TitleScreen);
 
         UIXButton bt;
 
@@ -59,6 +59,7 @@ namespace MMORpgmaker_Client
 
 
             titleScreen = new GameScene.TitleScreen(GraphicsDevice,Content, font, Symb);
+            charselection = new GameScene.CharSelect(GraphicsDevice,Content, font, Symb,this);
 
             skin = new SkinSystem(GraphicsDevice, "Eau"); //Skin Folder
 
@@ -87,15 +88,32 @@ namespace MMORpgmaker_Client
                 msg.Update(gameTime, kb, ms);
             }
 
+            if(gamestate._GameState == GameState.gameState.CharSelection)
+            {
+                charselection.Update(gameTime);
+                
+            }
+
             m.Update(gameTime, kb, ms);
             base.Update(gameTime);
+        }
+
+
+        public void SwitchScene(GameState gameState)
+        {
+            if(gamestate._GameState == GameState.gameState.CharSelection)
+            {
+                charselection.LoadContent();
+            }
+
+
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
 
-
+            //TitleScreen Draw
             if (gamestate._GameState == GameState.gameState.TitleScreen)
             {
                 _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
@@ -108,6 +126,16 @@ namespace MMORpgmaker_Client
             }
 
   
+            //CharSelection Draw
+            if(gamestate._GameState == GameState.gameState.CharSelection)
+            {
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+
+                charselection.Draw(_spriteBatch);
+
+                m.Draw(_spriteBatch);
+                _spriteBatch.End();
+            }
 
 
             base.Draw(gameTime);

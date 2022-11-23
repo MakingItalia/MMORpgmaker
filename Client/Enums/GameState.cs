@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace MMORpgmaker_Client.Enums
 {
-    internal class GameState
+    public class GameState
     {
         public enum gameState
         {
             TitleScreen,
-            Game
+            Game,
+            CharSelection
         }
 
         public gameState _GameState = gameState.TitleScreen;
