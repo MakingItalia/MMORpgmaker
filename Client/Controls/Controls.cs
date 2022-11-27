@@ -157,11 +157,7 @@ namespace UIXControls
         public void Initialize(object ControlType)
         {
          
-            //If want use Texturized Control, Just load the Graphics and can draw directly into controls draw method.
-            if (ControlType == typeof(UIXButton))
-            {
-                ControlGraphic = Texture2D.FromStream(Device, new FileStream(Environment.CurrentDirectory + "\\default_skin\\Button.png", FileMode.Open)); 
-            }
+          
 
             OnMouseDown += new MouseDown(Controls_OnMouseDown);
             OnMouseUp += new MouseUp(Controls_OnMouseUp);

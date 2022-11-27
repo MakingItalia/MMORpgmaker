@@ -14,7 +14,6 @@ namespace MMORpgmaker_Client.GameScene
     internal class TitleScreen
     {
         UIXContainer container = new UIXContainer();
-        UIXButton bt;
         UIXTextBox tx_user;
         UIXTextBox tx_pass;
         GraphicsDevice d;
@@ -30,11 +29,7 @@ namespace MMORpgmaker_Client.GameScene
             symb = _symb;
             Content = _Content;
 
-            //Button
-            bt = new UIXButton(d, font, new Vector2(370, 485));
-            bt.Text = "Login";
-            bt.OnMouseDown += Bt_OnMouseDown;
-            container.Controls.Add(bt);
+
 
 
             //TextBox

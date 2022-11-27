@@ -28,7 +28,7 @@ namespace MMORpgmaker_Client
         //Game State
         public GameState gamestate = new GameState(GameState.gameState.TitleScreen);
 
-        UIXButton bt;
+       
 
         public Game1()
         {
