@@ -97,7 +97,7 @@ namespace MMORpgmaker_Client.Controls
         {
             Position = position;
             Skin = skin;
-            WinText = ut.LoadFromFileStream(Skin.SkinBase + "\\win_msgbox.png", Skin.graphicsDevice);
+            WinText = ut.LoadFromFileStream(Skin.SkinBase + "/win_msgbox.png", Skin.graphicsDevice);
 
             OnMouseDown += new MouseDown(Msgbox_OnMouseDown);
             OnMouseUp += new MouseUp(Msgbox_OnMouseUp);
