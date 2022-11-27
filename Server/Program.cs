@@ -244,9 +244,98 @@ namespace MMORpgmakerServer
 
                         #endregion
 
+                        #region ACT_COUNT_CHAR
+
+                        if (((PacketData)t).Command == (uint)Packet.PacketHeader.HeaderCommand.ACT_COUNT_CHAR)
+                        {
+
+                            MySqlCommand cmd;
+                            cmd = new MySqlCommand($"select * from chars where account_id={int.Parse(((PacketData)t).Argument1)};", cn);
+                            MySqlDataReader rd = cmd.ExecuteReader();
+
+                            int count = 0;
+                            string char_id = "";
+                            while (rd.Read())
+                            {
+                                count++;
+                                char_id = char_id + rd.GetInt16("char_num") + ",";
+                            }
+                            rd.Close();
+
+                            p = new PacketData();
+                            p.Command = (uint)Packet.PacketHeader.HeaderCommand.ACT_GET_CHARCOUNT;
+                            p.Argument1 = count.ToString();
+                            p.Argument2 = char_id;
+
+                            data = p.Serialize();
+
+                            data = AssemblyPacket(PacketHeader.PacketType.PacketData, data);
+                            clientStream.Write(data, 0, data.Length);
+                            clientStream.Flush();
+
+                        }
+
+                        #endregion
 
 
+                        #region ACT_GET_CHAR
+                        if (((PacketData)t).Command == (uint)Packet.PacketHeader.HeaderCommand.ACT_GET_CHAR)
+                        {
+                            try
+                            {
+                                MySqlCommand cmd;
+                                cmd = new MySqlCommand($"select * from chars where account_id={int.Parse(((PacketData)t).Argument1)};", cn);
+                                MySqlDataReader rd = cmd.ExecuteReader();
+                                while (rd.Read())
+                                {
+                                    if (rd.GetInt16("char_num") == Convert.ToInt16(((PacketData)t).Argument2))
+                                    {
+                                        CharPaket ch = new CharPaket();
+                                        ch.Command = 0;
+                                        ch.CharNum = rd.GetInt16("char_num");
+                                        ch.accountID = int.Parse(((PacketData)t).Argument1);
+                                        ch.CharName = rd.GetString("name");
+                                        ch.Class = rd.GetString("class");
+                                        ch.level = rd.GetInt16("base_level");
+                                        ch.exp = rd.GetInt16("base_exp");
+                                        ch.max_hp = rd.GetInt16("max_hp");
+                                        ch.max_sp = rd.GetInt16("max_sp");
+                                        ch.hp = rd.GetInt16("hp");
+                                        ch.sp = rd.GetInt16("sp");
+                                        ch.str = rd.GetInt16("str");
+                                        ch.agi = rd.GetInt16("agi");
+                                        ch.vit = rd.GetInt16("vit");
+                                        ch.intel = rd.GetInt16("inte");
+                                        ch.dex = rd.GetInt16("dex");
+                                        ch.luk = rd.GetInt16("luk");
 
+                                        data = ch.Serialize();
+
+                                        data = AssemblyPacket(PacketHeader.PacketType.CharPacket, data);
+                                        clientStream.Write(data, 0, data.Length);
+
+                                        clientStream.Flush();
+
+                                    }
+                                }
+                                rd.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                Error(ex.Message);
+                                CharPaket ch = new CharPaket();
+                                ch.Command = (uint)PacketHeader.HeaderCommand.CHAR_EMPTY;
+                                data = ch.Serialize();
+
+                                data = AssemblyPacket(PacketHeader.PacketType.CharPacket, data);
+
+                                clientStream.Write(data, 0, data.Length);
+                                clientStream.Flush();
+
+                            }
+                        }
+
+                        #endregion
                     }
 
 

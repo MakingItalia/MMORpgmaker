@@ -10,3 +10,15 @@ C:\Users\Utente\Documents\GitHub\MMORpgmaker-Server\Packet\obj\Debug\net6.0\Pack
 C:\Users\Utente\Documents\GitHub\MMORpgmaker-Server\Packet\obj\Debug\net6.0\refint\Packet.dll
 C:\Users\Utente\Documents\GitHub\MMORpgmaker-Server\Packet\obj\Debug\net6.0\Packet.pdb
 C:\Users\Utente\Documents\GitHub\MMORpgmaker-Server\Packet\obj\Debug\net6.0\ref\Packet.dll
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\Packet\bin\Debug\net6.0\Packet.deps.json
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\Packet\bin\Debug\net6.0\Packet.dll
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\Packet\bin\Debug\net6.0\Packet.pdb
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\Packet\obj\Debug\net6.0\Packet.csproj.AssemblyReference.cache
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\Packet\obj\Debug\net6.0\Packet.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\Packet\obj\Debug\net6.0\Packet.AssemblyInfoInputs.cache
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\Packet\obj\Debug\net6.0\Packet.AssemblyInfo.cs
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\Packet\obj\Debug\net6.0\Packet.csproj.CoreCompileInputs.cache
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\Packet\obj\Debug\net6.0\Packet.dll
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\Packet\obj\Debug\net6.0\refint\Packet.dll
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\Packet\obj\Debug\net6.0\Packet.pdb
+C:\Users\Utente\Documents\GitHub\MMORpgmaker\Packet\obj\Debug\net6.0\ref\Packet.dll

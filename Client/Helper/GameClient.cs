@@ -311,7 +311,19 @@ namespace MMORpgmaker.Helper
             return tipo;
         }
 
+        public object SendGetPacket(byte[] data)
+        {
+            ns = client.GetStream();
+            ns.Flush();
 
+            ns.Write(data, 0, data.Length);
+            byte[] rd = new byte[120];
+            ns.Read(rd,0, rd.Length);
+
+            object tipo = DisassemblyPacket(rd);
+            ns.Flush();
+            return tipo;
+        }
 
         /*
         public object SendGetPacket<T>(T t)

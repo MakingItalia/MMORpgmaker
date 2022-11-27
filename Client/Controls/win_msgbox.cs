@@ -164,6 +164,7 @@ namespace MMORpgmaker_Client.Controls
 
                     //SiwtchScene
                     Game.gamestate._GameState = GameState.gameState.CharSelection;
+                    Game.account_id = account_id;
                     Game.SwitchScene(Game.gamestate);
                 }
                 else

@@ -23,6 +23,7 @@ namespace MMORpgmaker_Client
         public Camera2d cam = new Camera2d();
         int plx = 100, ply = 100;
         public GameClient client = new GameClient("127.0.0.1", 6400);
+        public int account_id = 0;
 
         //Game State
         public GameState gamestate = new GameState(GameState.gameState.TitleScreen);
@@ -57,11 +58,12 @@ namespace MMORpgmaker_Client
 
             background = Content.Load<Texture2D>("Background");
 
-
-            titleScreen = new GameScene.TitleScreen(GraphicsDevice,Content, font, Symb);
-            charselection = new GameScene.CharSelect(GraphicsDevice,Content, font, Symb,this);
-
             skin = new SkinSystem(GraphicsDevice, "Eau"); //Skin Folder
+
+            //Scenes
+            titleScreen = new GameScene.TitleScreen(GraphicsDevice, Content, font, Symb);
+            charselection = new GameScene.CharSelect(GraphicsDevice, Content,skin, font, Symb, this,client);
+
 
             //---------------  Adding Controls for testing ------- \\
             //---- BUTTON
@@ -90,7 +92,7 @@ namespace MMORpgmaker_Client
 
             if(gamestate._GameState == GameState.gameState.CharSelection)
             {
-                charselection.Update(gameTime);
+                charselection.Update(gameTime,kb,ms);
                 
             }
 
