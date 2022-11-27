@@ -62,16 +62,16 @@ namespace MMORpgmaker.Controls
 
             Utils u = new Utils();
 
-            top_left = u.LoadFromFileStream(Environment.CurrentDirectory + "\\Content\\SystemSkin\\msg_top_left.PNG", dev);
-            top_right = u.LoadFromFileStream(Environment.CurrentDirectory + "\\Content\\SystemSkin\\msg_top_right.PNG", dev);
-            top = u.LoadFromFileStream(Environment.CurrentDirectory + "\\Content\\SystemSkin\\msg_top.PNG", dev);
-            background = u.LoadFromFileStream(Environment.CurrentDirectory + "\\Content\\SystemSkin\\msg_bg.PNG", dev);
-            left = u.LoadFromFileStream(Environment.CurrentDirectory + "\\Content\\SystemSkin\\msg_left.PNG", dev);
-            right = u.LoadFromFileStream(Environment.CurrentDirectory + "\\Content\\SystemSkin\\msg_right.PNG", dev);
-            bottom_left = u.LoadFromFileStream(Environment.CurrentDirectory + "\\Content\\SystemSkin\\msg_bottom_left.PNG", dev);
-            bottom_right = u.LoadFromFileStream(Environment.CurrentDirectory + "\\Content\\SystemSkin\\msg_bottom_right.PNG", dev);
-            bottom = u.LoadFromFileStream(Environment.CurrentDirectory + "\\Content\\SystemSkin\\msg_bottom.PNG", dev);
-            cursor = u.LoadFromFileStream(Environment.CurrentDirectory + "\\Content\\SystemSkin\\msg_cursor.PNG", dev);
+            top_left = u.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/msg_top_left.PNG", dev);
+            top_right = u.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/msg_top_right.PNG", dev);
+            top = u.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/msg_top.PNG", dev);
+            background = u.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/msg_bg.PNG", dev);
+            left = u.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/msg_left.PNG", dev);
+            right = u.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/msg_right.PNG", dev);
+            bottom_left = u.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/msg_bottom_left.PNG", dev);
+            bottom_right = u.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/msg_bottom_right.PNG", dev);
+            bottom = u.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/msg_bottom.PNG", dev);
+            cursor = u.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/msg_cursor.PNG", dev);
         }
 
 

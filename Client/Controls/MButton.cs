@@ -101,19 +101,19 @@ namespace MMORpgmaker.Controls
             switch (ButtonType)
             {
                 case Button_Type.back :
-                    BtTexture = ut.LoadFromFileStream(GameSkin.SkinBase + "\\btn_back.png", GameSkin.graphicsDevice);
-                    BtIn = ut.LoadFromFileStream(GameSkin.SkinBase + "\\btn_back_a.png", GameSkin.graphicsDevice);
-                    BtOut = ut.LoadFromFileStream(GameSkin.SkinBase + "\\btn_back_b.png", GameSkin.graphicsDevice);
+                    BtTexture = ut.LoadFromFileStream(GameSkin.SkinBase + "/btn_back.png", GameSkin.graphicsDevice);
+                    BtIn = ut.LoadFromFileStream(GameSkin.SkinBase + "/btn_back_a.png", GameSkin.graphicsDevice);
+                    BtOut = ut.LoadFromFileStream(GameSkin.SkinBase + "/btn_back_b.png", GameSkin.graphicsDevice);
                   break;
                 case Button_Type.buy:
-                     BtTexture = ut.LoadFromFileStream(GameSkin.SkinBase + "\\btn_buy.png", GameSkin.graphicsDevice);
-                     BtIn = ut.LoadFromFileStream(GameSkin.SkinBase + "\\btn_buy_a.png", GameSkin.graphicsDevice);
-                     BtOut = ut.LoadFromFileStream(GameSkin.SkinBase + "\\btn_buy_b.png", GameSkin.graphicsDevice);
+                     BtTexture = ut.LoadFromFileStream(GameSkin.SkinBase + "/btn_buy.png", GameSkin.graphicsDevice);
+                     BtIn = ut.LoadFromFileStream(GameSkin.SkinBase + "/btn_buy_a.png", GameSkin.graphicsDevice);
+                     BtOut = ut.LoadFromFileStream(GameSkin.SkinBase + "/btn_buy_b.png", GameSkin.graphicsDevice);
                   break;
                 case Button_Type.ok:
-                     BtTexture = ut.LoadFromFileStream(GameSkin.SkinBase + "\\btn_ok.png", GameSkin.graphicsDevice);
-                     BtIn = ut.LoadFromFileStream(GameSkin.SkinBase + "\\btn_ok_a.png", GameSkin.graphicsDevice);
-                     BtOut = ut.LoadFromFileStream(GameSkin.SkinBase + "\\btn_ok_b.png", GameSkin.graphicsDevice);
+                     BtTexture = ut.LoadFromFileStream(GameSkin.SkinBase + "/btn_ok.png", GameSkin.graphicsDevice);
+                     BtIn = ut.LoadFromFileStream(GameSkin.SkinBase + "/btn_ok_a.png", GameSkin.graphicsDevice);
+                     BtOut = ut.LoadFromFileStream(GameSkin.SkinBase + "/btn_ok_b.png", GameSkin.graphicsDevice);
                   break;
             }
         }

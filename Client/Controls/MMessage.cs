@@ -38,7 +38,7 @@ namespace MMORpgmaker.Controls
         {
            
             Utils u = new Utils();
-            base.Texture = u.LoadFromFileStream(Environment.CurrentDirectory + "\\Content\\SystemSkin\\Eau\\win_msgbox.png", device);
+            base.Texture = u.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/Eau/win_msgbox.png", device);
             
            ok = new Button(Button.Button_Type.ok, new Vector2(base.Position.X + 230,base.Position.Y + (Texture.Height - 25)), skin);
            ok.ButtonClick += new Button.OnClick(ok_ButtonClick);

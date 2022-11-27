@@ -34,7 +34,7 @@ namespace MMORpgmaker_Client
         /// <returns></returns>
         public Song LoadMusic(string filename)
         {
-            return Song.FromUri("titolo", new System.Uri(Environment.CurrentDirectory + $"\\data\\BGM\\{filename}"));
+            return Song.FromUri("titolo", new System.Uri(Environment.CurrentDirectory + $"/data/BGM/{filename}"));
         }
 
 
@@ -53,23 +53,23 @@ namespace MMORpgmaker_Client
             switch (textureType)
             {
                 case TextureType.Texture:
-                    fss = new FileStream(Environment.CurrentDirectory + $"\\data\\Texture\\{filename}", FileMode.Open, FileAccess.Read);
+                    fss = new FileStream(Environment.CurrentDirectory + $"/data/Texture/{filename}", FileMode.Open, FileAccess.Read);
                     tx = Texture2D.FromStream(graphicsDevice, fss);
                     fss.Close();
                     break;
                 case TextureType.Picture:
-                    fss = new FileStream(Environment.CurrentDirectory + $"\\data\\Picture\\{filename}", FileMode.Open, FileAccess.Read);
+                    fss = new FileStream(Environment.CurrentDirectory + $"/data/Picture/{filename}", FileMode.Open, FileAccess.Read);
                     tx = Texture2D.FromStream(graphicsDevice, fss);
                     fss.Close();
                     break;
                 case TextureType.SystemSkin:
-                    fss = new FileStream(Environment.CurrentDirectory + $"\\Content\\SystemSkin\\{filename}", FileMode.Open, FileAccess.Read);
+                    fss = new FileStream(Environment.CurrentDirectory + $"/Content\\SystemSkin\\{filename}", FileMode.Open, FileAccess.Read);
                     tx = Texture2D.FromStream(graphicsDevice, fss);
                     fss.Close();
                     break;
 
                 case TextureType.Charaset:
-                    fss = new FileStream(Environment.CurrentDirectory + $"\\data\\Charaset\\{filename}", FileMode.Open, FileAccess.Read);
+                    fss = new FileStream(Environment.CurrentDirectory + $"/data/Charaset/{filename}", FileMode.Open, FileAccess.Read);
                     tx = Texture2D.FromStream(graphicsDevice, fss);
                     fss.Close();
                     break;

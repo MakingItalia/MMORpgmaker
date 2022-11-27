@@ -17,7 +17,7 @@ namespace MMORpgmaker_Client.Controls
 
         public SkinSystem(GraphicsDevice device, string SkinBase)
         {
-            skinbase = Environment.CurrentDirectory + "\\Content\\SystemSkin\\" + SkinBase; 
+            skinbase = Environment.CurrentDirectory + "/Content/SystemSkin/" + SkinBase; 
             graphicsDevice = device;
         }
 

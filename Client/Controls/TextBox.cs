@@ -67,7 +67,7 @@ namespace MMORpgmaker.Controls
             Skin = skin;
             Text = text;
             Font = font;
-            TxTex = ut.LoadFromFileStream(skin.SkinBase + "\\basic_interface\\chatwin0_bg.png", skin.graphicsDevice);
+            TxTex = ut.LoadFromFileStream(skin.SkinBase + "/basic_interface/chatwin0_bg.png", skin.graphicsDevice);
             txbox_area = new Rectangle(44, 6, width, 18);
             OnMouseDown += new MouseDown(TextBox_OnMouseDown);
 

@@ -45,7 +45,7 @@ namespace UIXControls
         /// <returns>Compiled List</returns>
         internal UIXList<T> Read(string Forms)
         {
-            StreamReader sr = new StreamReader(Environment.CurrentDirectory + "\\Forms\\" + Forms + ".dat");
+            StreamReader sr = new StreamReader(Environment.CurrentDirectory + "/Forms/" + Forms + ".dat");
             //ToDo: Da Implementare
 
             return this;
