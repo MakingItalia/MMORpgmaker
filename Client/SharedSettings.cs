@@ -22,6 +22,7 @@ namespace MMORpgmaker_Client
 
         //Main Background
         Texture2D background;
+        Texture2D _Mouse;
 
         Msgbox msg;
 

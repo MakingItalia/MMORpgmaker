@@ -278,6 +278,38 @@ namespace MMORpgmakerServer
                         #endregion
 
 
+                        if(((PacketData)t).Command == (uint)Packet.PacketHeader.HeaderCommand.ACT_GET_ALL_CHAR)
+                        {
+                            try
+                            {
+                                MySqlCommand cmd;
+                                cmd = new MySqlCommand($"select * from chars where account_id={int.Parse(((PacketData)t).Argument1)};", cn);
+                                MySqlDataReader rd = cmd.ExecuteReader();
+                                string dt = "";
+                                while(rd.Read())
+                                {
+                                    dt = dt + rd.GetInt16("char_num") + ",";
+                                }
+
+                                rd.Close();
+                                rd.Dispose();
+                                cmd.Dispose();
+
+                            }
+                            catch(Exception ex)
+                            {
+                                Error(ex.Message);
+                                CharPaket ch = new CharPaket();
+                                ch.Command = (uint)PacketHeader.HeaderCommand.CHAR_EMPTY;
+                                data = ch.Serialize();
+
+                                data = AssemblyPacket(PacketHeader.PacketType.CharPacket, data);
+
+                                clientStream.Write(data, 0, data.Length);
+                                clientStream.Flush();
+                            }
+                        }
+
                         #region ACT_GET_CHAR
                         if (((PacketData)t).Command == (uint)Packet.PacketHeader.HeaderCommand.ACT_GET_CHAR)
                         {

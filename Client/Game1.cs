@@ -5,6 +5,7 @@ using MMORpgmaker.Controls;
 using MMORpgmaker.Helper;
 using MMORpgmaker_Client.Controls;
 using MMORpgmaker_Client.Enums;
+using System;
 using System.Net.Sockets;
 using UIXControls;
 
@@ -24,6 +25,7 @@ namespace MMORpgmaker_Client
         int plx = 100, ply = 100;
         public GameClient client = new GameClient("127.0.0.1", 6400);
         public int account_id = 0;
+        public int mousex, mousey;
 
         //Game State
         public GameState gamestate = new GameState(GameState.gameState.TitleScreen);
@@ -37,7 +39,7 @@ namespace MMORpgmaker_Client
             _graphics.PreferredBackBufferHeight = 600;
             _graphics.ApplyChanges();
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = false;
         }
 
         protected override void Initialize()
@@ -63,7 +65,7 @@ namespace MMORpgmaker_Client
             //Scenes
             titleScreen = new GameScene.TitleScreen(GraphicsDevice, Content, font, Symb);
             charselection = new GameScene.CharSelect(GraphicsDevice, Content,skin, font, Symb, this,client);
-
+            _Mouse = util.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/Mouse/Cursor.png", GraphicsDevice);
 
             //---------------  Adding Controls for testing ------- \\
             //---- BUTTON
@@ -96,6 +98,9 @@ namespace MMORpgmaker_Client
                 
             }
 
+            mousex = ms.X;
+            mousey = ms.Y;
+
             m.Update(gameTime, kb, ms);
             base.Update(gameTime);
         }
@@ -124,6 +129,8 @@ namespace MMORpgmaker_Client
                 msg.Draw(_spriteBatch);
 
                 m.Draw(_spriteBatch);
+
+                _spriteBatch.Draw(_Mouse, new Vector2(mousex, mousey), Color.White);
                 _spriteBatch.End();
             }
 
@@ -136,6 +143,8 @@ namespace MMORpgmaker_Client
                 charselection.Draw(_spriteBatch);
 
                 m.Draw(_spriteBatch);
+
+                _spriteBatch.Draw(_Mouse, new Vector2(mousex, mousey), Color.White);
                 _spriteBatch.End();
             }
 

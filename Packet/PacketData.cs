@@ -178,6 +178,11 @@ namespace Packet
             /// </summary>
             ACT_GET_CHARCOUNT = 0x21,
             ACT_CREATE_CHAR = 0x22,
+            /// <summary>
+            /// Get All Char ID and Num
+            /// present on the account
+            /// </summary>
+            ACT_GET_ALL_CHAR = 0x23,
             ACT_CONFIRM = 0x50,
             ACT_FAIL = 0x51
 

@@ -46,6 +46,10 @@ namespace MMORpgmaker_Client.GameScene
         CharPaket char1, char2, char3;
 
 
+        string name = "", job = "";
+        int level=0, exp=0, hp=0, sp=0;
+        int str = 0, agi = 0, vit = 0, ints=0, dex=0, luk=0;
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -92,6 +96,8 @@ namespace MMORpgmaker_Client.GameScene
             bt_create2 = new TexturedButton(bt_crea, 370, 192);
             bt_create3 = new TexturedButton(bt_crea, 590, 192);
             bt_create1.OnMouseDown += Bt_create_OnMouseDown;
+            bt_create2.OnMouseDown += Bt_create2_OnMouseDown;
+            bt_create3.OnMouseDown += Bt_create3_OnMouseDown;
 
             //Get Char From Account ID;
 
@@ -110,62 +116,53 @@ namespace MMORpgmaker_Client.GameScene
 
             }
 
-            #region Get information about Character
 
-            //1
-            try
+            for (int i = 1; i < char_tot+1; ++i)
             {
-                p = new PacketData();
-                p.Command = (uint)PacketHeader.HeaderCommand.ACT_GET_CHAR;
-                p.Argument1 = acc_id.ToString(); //Account ID
-                p.Argument2 = "1";
-                data = u.AssemblyPacket(PacketHeader.PacketType.PacketData, p.Serialize());
-                t = client.SendGetPacket(data);
-
-                if (t.GetType() == typeof(CharPaket))
+                try
                 {
-                    char1 = (CharPaket)t;                   
+                    p = new PacketData();
+                    p.Command = (uint)PacketHeader.HeaderCommand.ACT_GET_CHAR;
+                    p.Argument1 = acc_id.ToString();
+                    p.Argument2 = i.ToString();
+                    data = u.AssemblyPacket(PacketHeader.PacketType.PacketData, p.Serialize());
+
+                    t = client.SendGetPacket(data);
+
+                    if (t.GetType() == typeof(CharPaket) && ((CharPaket)t).Command != (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
+                    {
+                        if(((CharPaket)t).CharNum == 1)
+                        char1 = (CharPaket)t;
+                    }
+
+                    if (t.GetType() == typeof(CharPaket) && ((CharPaket)t).Command != (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
+                    {
+                        if (((CharPaket)t).CharNum == 2)
+                            char2 = (CharPaket)t;
+                    }
+
+                    if (t.GetType() == typeof(CharPaket) && ((CharPaket)t).Command != (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
+                    {
+                        if (((CharPaket)t).CharNum == 3)
+                            char3 = (CharPaket)t;
+
+                    }
                 }
+                catch { }
+
             }
-            catch { }
-
-            //1
-            try
-            {
-                p = new PacketData();
-                p.Command = (uint)PacketHeader.HeaderCommand.ACT_GET_CHAR;
-                p.Argument1 = acc_id.ToString(); //Account ID
-                p.Argument2 = "2";
-                data = u.AssemblyPacket(PacketHeader.PacketType.PacketData, p.Serialize());
-                t = client.SendGetPacket(data);
-
-                if (t.GetType() == typeof(CharPaket))
-                {
-                    char2 = (CharPaket)t;
-                }
-            }
-            catch { }
-
-            //3
-            try
-            {
-                p = new PacketData();
-                p.Command = (uint)PacketHeader.HeaderCommand.ACT_GET_CHAR;
-                p.Argument1 = acc_id.ToString(); //Account ID
-                p.Argument2 = "3";
-                data = u.AssemblyPacket(PacketHeader.PacketType.PacketData, p.Serialize());
-                t = client.SendGetPacket(data);
-
-                if (t.GetType() == typeof(CharPaket))
-                {
-                    char3 = (CharPaket)t;
-                }
-            }
-            catch { }
-
-            #endregion
 
 
+        }
+
+        private void Bt_create3_OnMouseDown()
+        {
+            
+        }
+
+        private void Bt_create2_OnMouseDown()
+        {
+            
         }
 
         private void Bt_create_OnMouseDown()
@@ -200,6 +197,109 @@ namespace MMORpgmaker_Client.GameScene
             bt_create1.Update(gameTime, ms, kb);
             bt_create2.Update(gameTime, ms, kb);
             bt_create3.Update(gameTime, ms, kb);
+
+            #region Recover Character information
+
+            if (char1.Command != (uint)PacketHeader.HeaderCommand.CHAR_EMPTY && select_id == 1)
+            {
+                name = char1.CharName;
+                job = char1.Class;
+                level = char1.level;
+                exp = char1.exp;
+                hp = char1.hp;
+                sp = char1.sp;
+                str = char1.str;
+                agi = char1.agi;
+                vit = char1.vit;
+                ints = char1.intel;
+                dex = char1.dex;
+                luk = char1.luk;
+
+            }
+            if (char1.Command == (uint)PacketHeader.HeaderCommand.CHAR_EMPTY && select_id == 1)
+            {
+                name = "";
+                job = "";
+                level = 0;
+                exp = 0;
+                hp = 0;
+                sp = 0;
+                str = 0;
+                agi = 0;
+                vit = 0;
+                ints = 0;
+                dex = 0;
+                luk = 0;
+            }
+
+
+            if (char2.Command != (uint)PacketHeader.HeaderCommand.CHAR_EMPTY && select_id == 2)
+            {
+                name = char2.CharName;
+                job = char2.Class;
+                level = char2.level;
+                exp = char2.exp;
+                hp = char2.hp;
+                sp = char2.sp;
+                str = char2.str;
+                agi = char2.agi;
+                vit = char2.vit;
+                ints = char2.intel;
+                dex = char2.dex;
+                luk = char2.luk;
+
+            }
+            if (char2.Command == (uint)PacketHeader.HeaderCommand.CHAR_EMPTY && select_id == 2)
+            {
+                name = "";
+                job = "";
+                level = 0;
+                exp = 0;
+                hp = 0;
+                sp = 0;
+                str = 0;
+                agi = 0;
+                vit = 0;
+                ints = 0;
+                dex = 0;
+                luk = 0;
+            }
+
+
+            if (char3.Command != (uint)PacketHeader.HeaderCommand.CHAR_EMPTY && select_id == 3)
+            {
+                name = char3.CharName;
+                job = char3.Class;
+                level = char3.level;
+                exp = char3.exp;
+                hp = char3.hp;
+                sp = char3.sp;
+                str = char3.str;
+                agi = char3.agi;
+                vit = char3.vit;
+                ints = char3.intel;
+                dex = char3.dex;
+                luk = char3.luk;
+
+            }
+            if(char3.Command == (uint)PacketHeader.HeaderCommand.CHAR_EMPTY && select_id == 3)
+            {
+                   name = "";
+                    job = "";
+                    level = 0;
+                    exp = 0;
+                    hp = 0;
+                    sp = 0;
+                    str = 0;
+                    agi = 0;
+                    vit = 0;
+                    ints = 0;
+                    dex = 0;
+                    luk = 0;
+            }
+
+            #endregion
+
         }
 
 
@@ -207,8 +307,26 @@ namespace MMORpgmaker_Client.GameScene
         {
             spriteBatch.Draw(bg, new Rectangle(0, 0, d.PresentationParameters.BackBufferWidth, d.PresentationParameters.BackBufferHeight), Color.White);
 
+
+            spriteBatch.DrawString(font, name, new Vector2(93, 365), Color.Black);
+            spriteBatch.DrawString(font, job, new Vector2(93, 393), Color.Black);
+            spriteBatch.DrawString(font, level.ToString(), new Vector2(93, 421), Color.Black);
+            spriteBatch.DrawString(font, exp.ToString(), new Vector2(93, 449), Color.Black);
+            spriteBatch.DrawString(font, hp.ToString(), new Vector2(93, 477), Color.Black);
+            spriteBatch.DrawString(font, sp.ToString(), new Vector2(93, 505), Color.Black);
+
+            spriteBatch.DrawString(font, str.ToString(), new Vector2(295, 365), Color.Black);
+            spriteBatch.DrawString(font, agi.ToString(), new Vector2(295, 393), Color.Black);
+            spriteBatch.DrawString(font, vit.ToString(), new Vector2(295, 421), Color.Black);
+            spriteBatch.DrawString(font, ints.ToString(), new Vector2(295, 449), Color.Black);
+            spriteBatch.DrawString(font, dex.ToString(), new Vector2(295, 477), Color.Black);
+            spriteBatch.DrawString(font, luk.ToString(), new Vector2(295, 505), Color.Black);
+
+            //spriteBatch.DrawString(font, name, new Vector2(m.Position.X,m.Position.Y), Color.Black);
+
+
             //Selector
-            switch(select_id)
+            switch (select_id)
             {
                 case 1:
                     spriteBatch.Draw(sel, sel_p1, Color.White);
@@ -222,9 +340,14 @@ namespace MMORpgmaker_Client.GameScene
             }
 
 
+            if(char1.Command == (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
             bt_create1.Draw(spriteBatch);
-            bt_create2.Draw(spriteBatch);
-            bt_create3.Draw(spriteBatch);
+
+            if (char2.Command == (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
+                bt_create2.Draw(spriteBatch);
+
+            if (char3.Command == (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
+                bt_create3.Draw(spriteBatch);
 
             spriteBatch.DrawString(font,m.Position.ToVector2().ToString(), new Vector2(2, 30), Color.Yellow);
         }
