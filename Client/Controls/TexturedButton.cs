@@ -32,6 +32,14 @@ namespace MMORpgmaker_Client.Controls
             sz = new Rectangle(x, y, tex.Width, tex.Height);
         }
 
+        public TexturedButton(Texture2D tex, int x, int y,int w,int h)
+        {
+            OnMouseDown += TexturedButton_OnMouseDown;
+            _tex = tex;
+            _pos = new Vector2(x, y);
+            sz = new Rectangle(x, y, w, h);
+        }
+
         private void TexturedButton_OnMouseDown()
         {
             
@@ -39,7 +47,7 @@ namespace MMORpgmaker_Client.Controls
 
         public void Draw(SpriteBatch sprite)
         {
-            sprite.Draw(Texture, Position, Color.White);
+            sprite.Draw(Texture,new Rectangle((int)Position.X,(int)Position.Y,sz.Width,sz.Height), Color.White);
         }
 
         public void Initialize(object ControlType = null)

@@ -129,9 +129,9 @@ namespace MMORpgmaker.Controls
             
             
             if(!caret)
-                sprite.DrawString(Font, Text, new Vector2(Position.X + 5, Position.Y + 1), Color.Black);
+                sprite.DrawString(Font, Text, new Vector2(Position.X + 5, Position.Y ), Color.Black);
             else
-                sprite.DrawString(Font, Text + "|", new Vector2(Position.X + 5, Position.Y + 1), Color.Black);
+                sprite.DrawString(Font, Text + "|", new Vector2(Position.X + 5, Position.Y ), Color.Black);
 
 
         }

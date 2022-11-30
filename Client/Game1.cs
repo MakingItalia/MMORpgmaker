@@ -39,7 +39,7 @@ namespace MMORpgmaker_Client
             _graphics.PreferredBackBufferHeight = 600;
             _graphics.ApplyChanges();
             Content.RootDirectory = "Content";
-            IsMouseVisible = false;
+            IsMouseVisible = true;
         }
 
         protected override void Initialize()
@@ -65,6 +65,8 @@ namespace MMORpgmaker_Client
             //Scenes
             titleScreen = new GameScene.TitleScreen(GraphicsDevice, Content, font, Symb);
             charselection = new GameScene.CharSelect(GraphicsDevice, Content,skin, font, Symb, this,client);
+            charcreation = new GameScene.CharCreation(GraphicsDevice, Content, skin, font, Symb, this, client);
+
             _Mouse = util.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/Mouse/Cursor.png", GraphicsDevice);
 
             //---------------  Adding Controls for testing ------- \\
@@ -98,6 +100,12 @@ namespace MMORpgmaker_Client
                 
             }
 
+            if (gamestate._GameState == GameState.gameState.CharCreation)
+            {
+                charcreation.Update(gameTime, kb, ms);
+
+            }
+
             mousex = ms.X;
             mousey = ms.Y;
 
@@ -111,6 +119,11 @@ namespace MMORpgmaker_Client
             if(gamestate._GameState == GameState.gameState.CharSelection)
             {
                 charselection.LoadContent();
+            }
+
+            if(gamestate._GameState == GameState.gameState.CharCreation)
+            {
+                charcreation.LoadContent();
             }
 
 
@@ -148,6 +161,18 @@ namespace MMORpgmaker_Client
                 _spriteBatch.End();
             }
 
+
+            if(gamestate._GameState == GameState.gameState.CharCreation)
+            {
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+
+                charcreation.Draw(_spriteBatch);
+
+                m.Draw(_spriteBatch);
+
+               // _spriteBatch.Draw(_Mouse, new Vector2(mousex, mousey), Color.White);
+                _spriteBatch.End();
+            }
 
             base.Draw(gameTime);
         }

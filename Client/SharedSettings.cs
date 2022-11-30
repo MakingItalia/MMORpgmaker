@@ -19,6 +19,7 @@ namespace MMORpgmaker_Client
         //Scene
         TitleScreen titleScreen;
         CharSelect charselection;
+        public CharCreation charcreation;
 
         //Main Background
         Texture2D background;

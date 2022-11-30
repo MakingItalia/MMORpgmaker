@@ -157,7 +157,10 @@ namespace MMORpgmaker_Client.GameScene
 
         private void Bt_create3_OnMouseDown()
         {
-            
+            game.gamestate._GameState = Enums.GameState.gameState.CharCreation;
+            game.charcreation.account_id = acc_id;
+            game.charcreation.slot = 3;
+            game.SwitchScene(game.gamestate);
         }
 
         private void Bt_create2_OnMouseDown()
@@ -349,7 +352,7 @@ namespace MMORpgmaker_Client.GameScene
             if (char3.Command == (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
                 bt_create3.Draw(spriteBatch);
 
-            spriteBatch.DrawString(font,m.Position.ToVector2().ToString(), new Vector2(2, 30), Color.Yellow);
+           // spriteBatch.DrawString(font,m.Position.ToVector2().ToString(), new Vector2(2, 30), Color.Yellow);
         }
 
 
