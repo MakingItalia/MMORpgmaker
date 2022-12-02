@@ -5,8 +5,10 @@ using Microsoft.Xna.Framework.Input;
 using MMORpgmaker.Controls;
 using MMORpgmaker.Helper;
 using MMORpgmaker_Client.Controls;
+using Packet;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,14 +31,29 @@ namespace MMORpgmaker_Client.GameScene
         public int account_id = 0;
         public int slot = 0;
 
+        public string SEX = "M";
+
         Texture2D bg;
 
         Texture2D @base;
         Texture2D sx, dx;
         Texture2D panel;
+        Texture2D crea;
 
         TexturedButton str_sx, str_dx, agi_sx, agi_dx, vit_sx, vit_dx, int_sx, int_dx,
             de_sx, de_dx,lu_sx,lu_dx;
+        TexturedButton bt_crea;
+
+        TexturedButton hair_left, hair_right;
+
+        struct hairs
+        {
+            public int id;
+            public Texture2D tx;
+        }
+
+        List<hairs> hairpart = new List<hairs>();
+        int hair_sel = 0;
 
         int str = 5, agi = 5, vit = 5, ints = 5, dex = 5, luk = 5;
 
@@ -60,11 +77,17 @@ namespace MMORpgmaker_Client.GameScene
             tx = new TextBox(new Vector2(100, 435), "", font, skin,180);
 
             //Loading Chara Template
-            @base = u.LoadTextureFromFile("Novice_base.png", d, Utils.TextureType.Charaset);
+            @base = u.LoadTextureFromFile("Novice.png", d, Utils.TextureType.Charaset);
             sx = u.LoadTextureFromFile("arw_sx.png", d, Utils.TextureType.SystemSkin);
             dx = u.LoadTextureFromFile("arw_dx.png", d, Utils.TextureType.SystemSkin);
             panel = u.LoadTextureFromFile("textbox.png", d, Utils.TextureType.SystemSkin);
-            
+            crea = u.LoadTextureFromFile("btn_crea.png", d, Utils.TextureType.SystemSkin);
+
+
+            //Button
+
+            bt_crea = new TexturedButton(crea, 365, 460);
+
             str_sx = new TexturedButton(sx, 658, 80,15,15);
             str_dx = new TexturedButton(dx, 715, 80, 15, 15);
 
@@ -82,7 +105,10 @@ namespace MMORpgmaker_Client.GameScene
             
             lu_sx = new TexturedButton(sx, 658, 220, 15, 15);
             lu_dx = new TexturedButton(dx, 715, 220, 15, 15);
-            //218
+            //352 x 290
+
+            hair_left = new TexturedButton(sx,352, 290, 20, 20);
+            hair_right = new TexturedButton(dx, 440, 290, 20, 20);
 
             //event
             str_sx.OnMouseDown += Str_sx_OnMouseDown;
@@ -98,6 +124,95 @@ namespace MMORpgmaker_Client.GameScene
             lu_sx.OnMouseDown += Lu_sx_OnMouseDown;
             lu_dx.OnMouseDown += Lu_dx_OnMouseDown;
 
+            bt_crea.OnMouseDown += Bt_crea_OnMouseDown;
+
+            hair_left.OnMouseDown += Hair_left_OnMouseDown;
+            hair_right.OnMouseDown += Hair_right_OnMouseDown;
+
+            //Loading Hairs
+            string[] files = Directory.GetFiles(Environment.CurrentDirectory + $"/Content/Class/Hair");
+            foreach(string s in files)
+            {
+                if(s.Contains("_" + SEX))
+                {
+                    string a = s.Replace('\\', '/');
+                    string[] f = a.Split('/');
+                    string[] res = f[f.Length - 1].Split('_');
+                    hairs h = new hairs();
+                    h.id = int.Parse(res[0]);
+                   h.tx = u.LoadTextureFromFile(f[f.Length-1], d, Utils.TextureType.Hair);
+                    hairpart.Add(h);
+                }
+            }
+
+        }
+
+        private void Hair_right_OnMouseDown()
+        {
+            if(hair_sel < hairpart.Count-1 && counter_press ==0)
+            {
+                hair_sel++;
+                counter_press = 10;
+            }
+        }
+
+        private void Hair_left_OnMouseDown()
+        {
+            if(hair_sel > 0 && counter_press ==0)
+            {
+                hair_sel--;
+                counter_press = 10;
+            }
+        }
+
+        private void Bt_crea_OnMouseDown()
+        {
+            if (point_left > 0)
+            {
+                game.m.MessageText = "Please use all Stats Point";
+                game.m.ShowMessage();
+            }
+            else if(tx.Text.Length < 5)
+            {
+                game.m.MessageText = "Character Name nimimum 5 Char";
+                game.m.ShowMessage();
+            }
+            else
+            {
+                CharPaket ch = new CharPaket();
+                ch.Command = (uint)PacketHeader.HeaderCommand.ACT_CREATE_CHAR;
+                ch.CharNum = slot;
+                ch.accountID = account_id;
+                ch.CharName = tx.Text;
+                ch.Class = "Novice";
+                ch.exp = 0;
+                ch.agi = agi;
+                ch.luk = luk;
+                ch.hp = 100;
+                ch.max_hp = 100;
+                ch.sp = 50;
+                ch.max_sp = 50;
+                ch.str = str;
+                ch.vit = vit;
+                ch.intel = ints;
+                ch.dex = dex;
+                ch.hair_id = hairpart[hair_sel].id;
+
+                //Send Packet
+                byte[] data = u.AssemblyPacket(PacketHeader.PacketType.CharPacket, ch.Serialize());
+                object t = client.SendGetPacket(data);
+
+                PacketData p = (PacketData)t;
+                if(p.Command == (uint)PacketHeader.HeaderCommand.ACT_CONFIRM)
+                {
+                    if(p.Argument1.ToLower().Contains("true"))
+                    {
+                        game.gamestate._GameState = Enums.GameState.gameState.CharSelection;
+                        game.SwitchScene(game.gamestate);
+                    }
+                }
+
+            }
         }
 
         private void Lu_dx_OnMouseDown()
@@ -250,6 +365,9 @@ namespace MMORpgmaker_Client.GameScene
             de_sx.Update(gameTime, ms, kb);
             lu_dx.Update(gameTime, ms, kb);
             lu_sx.Update(gameTime, ms, kb);
+            bt_crea.Update(gameTime, ms, kb);
+            hair_left.Update(gameTime, ms, kb);
+            hair_right.Update(gameTime, ms, kb);
         }
 
 
@@ -263,6 +381,13 @@ namespace MMORpgmaker_Client.GameScene
 
             tx.Draw(spriteBatch);
             spriteBatch.Draw(@base,new Rectangle(100,250,32*2,48*2), new Rectangle(frame,0,32,48), Color.White);
+
+            //Draw Hair
+            spriteBatch.Draw(hairpart[hair_sel].tx, new Rectangle(100, 250, 32 * 2, 48 * 2), new Rectangle(frame, 0, 32, 48), Color.White);
+
+
+            //Hair Selection
+            spriteBatch.Draw(hairpart[hair_sel].tx, new Rectangle(375, 270, 32 * 2, 48 * 2), new Rectangle(0, 0, 32, 48), Color.White);
 
             #region Draw Stats
 
@@ -344,6 +469,13 @@ namespace MMORpgmaker_Client.GameScene
 
             #endregion
 
+            if(hair_sel > 0)
+            hair_left.Draw(spriteBatch);
+
+            if(hair_sel < hairpart.Count-1)
+            hair_right.Draw(spriteBatch);
+
+            bt_crea.Draw(spriteBatch);
 
             //Panel
             spriteBatch.Draw(panel,new Rectangle(635,250,120,20), Color.White);

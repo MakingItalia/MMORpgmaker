@@ -40,15 +40,22 @@ namespace MMORpgmaker_Client.GameScene
         //Button
         Texture2D bt_crea, bt_usa;
 
-        TexturedButton bt_create1, bt_create2,bt_create3,bt_use;
+        TexturedButton bt_create1, bt_create2, bt_create3;
+        TexturedButton bt_usa1, bt_usa2, bt_usa3;
 
         //Information
         CharPaket char1, char2, char3;
 
-
+        //Information
         string name = "", job = "";
         int level=0, exp=0, hp=0, sp=0;
         int str = 0, agi = 0, vit = 0, ints=0, dex=0, luk=0;
+
+        //Graphics
+        Texture2D char1_body, char1_head;
+        Texture2D char2_body,char2_head;
+        Texture2D char3_body,char3_head;
+
 
         /// <summary>
         /// Constructor
@@ -95,9 +102,18 @@ namespace MMORpgmaker_Client.GameScene
             bt_create1 = new TexturedButton(bt_crea, 135, 192);
             bt_create2 = new TexturedButton(bt_crea, 370, 192);
             bt_create3 = new TexturedButton(bt_crea, 590, 192);
+
+            bt_usa1 = new TexturedButton(bt_usa, 135, 192);
+            bt_usa2 = new TexturedButton(bt_usa, 370, 192);
+            bt_usa3 = new TexturedButton(bt_usa, 590, 192);
+
             bt_create1.OnMouseDown += Bt_create_OnMouseDown;
             bt_create2.OnMouseDown += Bt_create2_OnMouseDown;
             bt_create3.OnMouseDown += Bt_create3_OnMouseDown;
+
+            bt_usa1.OnMouseDown += Bt_usa1_OnMouseDown;
+            bt_usa2.OnMouseDown += Bt_usa2_OnMouseDown;
+            bt_usa3.OnMouseDown += Bt_usa3_OnMouseDown;
 
             //Get Char From Account ID;
 
@@ -109,68 +125,145 @@ namespace MMORpgmaker_Client.GameScene
             byte[] data = u.AssemblyPacket(PacketHeader.PacketType.PacketData, p.Serialize());
             object t = client.SendGetPacket(data);
             int char_tot = 0;
-            if(t.GetType() == typeof(PacketData))
+            string charpos="";
+            string[] char_block= new string[0];
+
+            if (t.GetType() == typeof(PacketData))
             {
                 PacketData packet = (PacketData)t;
                 char_tot = int.Parse(packet.Argument1);
+                charpos = packet.Argument2;
+                char_block = charpos.Split(',');
 
             }
 
+ 
+             for (int i = 1; i < char_tot+1; i++)
+             {
+                 try
+                 {
+                     p = new PacketData();
+                     p.Command = (uint)PacketHeader.HeaderCommand.ACT_GET_CHAR;
+                     p.Argument1 = acc_id.ToString();
+                     p.Argument2 = char_block[i-1];
+                     data = u.AssemblyPacket(PacketHeader.PacketType.PacketData, p.Serialize());
 
-            for (int i = 1; i < char_tot+1; ++i)
-            {
-                try
+                     t = client.SendGetPacket(data);
+
+                     if (t.GetType() == typeof(CharPaket) && ((CharPaket)t).Command != (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
+                     {
+                         if(((CharPaket)t).CharNum == 1)
+                         char1 = (CharPaket)t;
+                     }
+
+                     if (t.GetType() == typeof(CharPaket) && ((CharPaket)t).Command != (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
+                     {
+                         if (((CharPaket)t).CharNum == 2)
+                             char2 = (CharPaket)t;
+                     }
+
+                     if (t.GetType() == typeof(CharPaket) && ((CharPaket)t).Command != (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
+                     {
+                         if (((CharPaket)t).CharNum == 3)
+                             char3 = (CharPaket)t;
+
+                     }
+
+                 }
+                 catch { }
+
+                #region Loading Graphics
+
+                if (char1.Command != (uint)25)
                 {
-                    p = new PacketData();
-                    p.Command = (uint)PacketHeader.HeaderCommand.ACT_GET_CHAR;
-                    p.Argument1 = acc_id.ToString();
-                    p.Argument2 = i.ToString();
-                    data = u.AssemblyPacket(PacketHeader.PacketType.PacketData, p.Serialize());
+                    char1.sex = 'M';
 
-                    t = client.SendGetPacket(data);
+                    char1_body = u.LoadTextureFromFile(char1.Class + ".png", d, Utils.TextureType.Charaset);
+                    char1_head = u.LoadTextureFromFile($"{char1.hair_id}_{char1.sex}.png", d, Utils.TextureType.Hair);
 
-                    if (t.GetType() == typeof(CharPaket) && ((CharPaket)t).Command != (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
-                    {
-                        if(((CharPaket)t).CharNum == 1)
-                        char1 = (CharPaket)t;
-                    }
-
-                    if (t.GetType() == typeof(CharPaket) && ((CharPaket)t).Command != (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
-                    {
-                        if (((CharPaket)t).CharNum == 2)
-                            char2 = (CharPaket)t;
-                    }
-
-                    if (t.GetType() == typeof(CharPaket) && ((CharPaket)t).Command != (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
-                    {
-                        if (((CharPaket)t).CharNum == 3)
-                            char3 = (CharPaket)t;
-
-                    }
                 }
-                catch { }
+
+                if(char2.Command !=(uint)25)
+                {
+                    char2.sex = 'M';
+
+                    char2_body = u.LoadTextureFromFile(char2.Class + ".png", d, Utils.TextureType.Charaset);
+                    char2_head = u.LoadTextureFromFile($"{char2.hair_id}_{char2.sex}.png", d, Utils.TextureType.Hair);
+
+                }
+
+                if (char3.Command != (uint)25)
+                {
+                    //test
+                    char3.sex = 'M';
+
+                    char3_body = u.LoadTextureFromFile(char3.Class + ".png", d, Utils.TextureType.Charaset);
+                    char3_head = u.LoadTextureFromFile($"{char3.hair_id}_{char3.sex}.png", d, Utils.TextureType.Hair);
+                }
+
+                #endregion
 
             }
 
 
+        }
+
+        private void Bt_usa3_OnMouseDown()
+        {
+            if (char3.Command != (uint)25)
+            {
+                game.m.MessageText = "ok";
+                game.m.ShowMessage();
+            }
+        }
+
+        private void Bt_usa2_OnMouseDown()
+        {
+            if(char2.Command != (uint)25)
+            {
+
+            }
+        }
+
+        private void Bt_usa1_OnMouseDown()
+        {
+            if(char1.Command != (uint)25)
+            {
+
+            }
         }
 
         private void Bt_create3_OnMouseDown()
         {
-            game.gamestate._GameState = Enums.GameState.gameState.CharCreation;
-            game.charcreation.account_id = acc_id;
-            game.charcreation.slot = 3;
-            game.SwitchScene(game.gamestate);
+            if (char3.Command == (uint)25)
+            {
+                game.gamestate._GameState = Enums.GameState.gameState.CharCreation;
+                game.charcreation.account_id = acc_id;
+                game.charcreation.slot = 3;
+                game.SwitchScene(game.gamestate);
+            }
         }
 
         private void Bt_create2_OnMouseDown()
         {
-            
+            if (char2.Command == (uint)25)
+            {
+                game.gamestate._GameState = Enums.GameState.gameState.CharCreation;
+                game.charcreation.account_id = acc_id;
+                game.charcreation.slot = 2;
+                game.SwitchScene(game.gamestate);
+            }
         }
 
         private void Bt_create_OnMouseDown()
         {
-           
+            if (char1.Command == (uint)25)
+            {
+                game.gamestate._GameState = Enums.GameState.gameState.CharCreation;
+                game.charcreation.account_id = acc_id;
+                game.charcreation.slot = 1;
+                game.SwitchScene(game.gamestate);
+            }
         }
 
         public void Update(GameTime gameTime,KeyboardState kb,MouseState ms)
@@ -200,6 +293,10 @@ namespace MMORpgmaker_Client.GameScene
             bt_create1.Update(gameTime, ms, kb);
             bt_create2.Update(gameTime, ms, kb);
             bt_create3.Update(gameTime, ms, kb);
+
+            bt_usa1.Update(gameTime, ms, kb);
+            bt_usa2.Update(gameTime, ms, kb);
+            bt_usa3.Update(gameTime, ms, kb);
 
             #region Recover Character information
 
@@ -343,16 +440,31 @@ namespace MMORpgmaker_Client.GameScene
             }
 
 
-            if(char1.Command == (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
-            bt_create1.Draw(spriteBatch);
+            //Draw Graphics
+            if(char2.Command != (uint)25)
+            {
+                //spriteBatch.Draw(char2_body, new Vector2(250, 140), new Rectangle(0, 0, 32, 48), Color.White);
+                //spriteBatch.Draw(char2_head, new Vector2(250, 140), new Rectangle(0, 0, 32, 48), Color.White);
+            }
+
+
+
+            if (char1.Command == (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
+                bt_create1.Draw(spriteBatch);
+            else
+                bt_usa1.Draw(spriteBatch);
 
             if (char2.Command == (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
                 bt_create2.Draw(spriteBatch);
+            else
+                bt_usa2.Draw(spriteBatch);
 
             if (char3.Command == (uint)PacketHeader.HeaderCommand.CHAR_EMPTY)
                 bt_create3.Draw(spriteBatch);
+            else
+                bt_usa3.Draw(spriteBatch);
 
-           // spriteBatch.DrawString(font,m.Position.ToVector2().ToString(), new Vector2(2, 30), Color.Yellow);
+            //spriteBatch.DrawString(font,m.Position.ToVector2().ToString(), new Vector2(2, 30), Color.Yellow);
         }
 
 

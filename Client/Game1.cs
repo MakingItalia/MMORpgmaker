@@ -36,10 +36,11 @@ namespace MMORpgmaker_Client
         {
             _graphics = new GraphicsDeviceManager(this);
             _graphics.PreferredBackBufferWidth = 800;
-            _graphics.PreferredBackBufferHeight = 600;
-            _graphics.ApplyChanges();
+            _graphics.PreferredBackBufferHeight = 600;          
             Content.RootDirectory = "Content";
+            _graphics.IsFullScreen = false;
             IsMouseVisible = true;
+            _graphics.ApplyChanges();
         }
 
         protected override void Initialize()
@@ -170,7 +171,7 @@ namespace MMORpgmaker_Client
 
                 m.Draw(_spriteBatch);
 
-               // _spriteBatch.Draw(_Mouse, new Vector2(mousex, mousey), Color.White);
+                _spriteBatch.Draw(_Mouse, new Vector2(mousex, mousey), Color.White);
                 _spriteBatch.End();
             }
 

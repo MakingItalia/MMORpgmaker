@@ -20,7 +20,8 @@ namespace MMORpgmaker_Client
             Tileset,
             SystemSkin,
             Picture,
-            Background
+            Background,
+            Hair
 
         }
 
@@ -70,6 +71,11 @@ namespace MMORpgmaker_Client
 
                 case TextureType.Charaset:
                     fss = new FileStream(Environment.CurrentDirectory + $"/Content/Class/{filename}", FileMode.Open, FileAccess.Read);
+                    tx = Texture2D.FromStream(graphicsDevice, fss);
+                    fss.Close();
+                    break;
+                case TextureType.Hair:
+                    fss = new FileStream(Environment.CurrentDirectory + $"/Content/Class/Hair/{filename}", FileMode.Open, FileAccess.Read);
                     tx = Texture2D.FromStream(graphicsDevice, fss);
                     fss.Close();
                     break;

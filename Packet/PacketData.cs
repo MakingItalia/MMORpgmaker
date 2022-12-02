@@ -108,6 +108,7 @@ namespace Packet
         public int dex;
         public int luk;
         public int hair_id;
+        public char sex;
 
         public byte[] Serialize()
         {

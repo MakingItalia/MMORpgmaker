@@ -251,7 +251,11 @@ namespace MMORpgmakerServer
 
                             MySqlCommand cmd;
                             cmd = new MySqlCommand($"select * from chars where account_id={int.Parse(((PacketData)t).Argument1)};", cn);
-                            MySqlDataReader rd = cmd.ExecuteReader();
+
+                            try
+                            {
+                                MySqlDataReader rd = cmd.ExecuteReader();
+                           
 
                             int count = 0;
                             string char_id = "";
@@ -260,6 +264,7 @@ namespace MMORpgmakerServer
                                 count++;
                                 char_id = char_id + rd.GetInt16("char_num") + ",";
                             }
+
                             rd.Close();
 
                             p = new PacketData();
@@ -273,6 +278,11 @@ namespace MMORpgmakerServer
                             clientStream.Write(data, 0, data.Length);
                             clientStream.Flush();
 
+                            }
+                            catch (Exception a)
+                            {
+                                Error(a.Message);
+                            }
                         }
 
                         #endregion
@@ -340,6 +350,7 @@ namespace MMORpgmakerServer
                                         ch.intel = rd.GetInt16("inte");
                                         ch.dex = rd.GetInt16("dex");
                                         ch.luk = rd.GetInt16("luk");
+                                        ch.hair_id = rd.GetInt16("head");
 
                                         data = ch.Serialize();
 
@@ -374,6 +385,31 @@ namespace MMORpgmakerServer
                     #endregion
 
 
+                    if(t.GetType() == typeof(CharPaket))
+                    {
+                        if(((CharPaket)t).Command == (uint)Packet.PacketHeader.HeaderCommand.ACT_CREATE_CHAR)
+                        {
+                            CharPaket cc = (CharPaket)t;
+
+                            //Execute Query
+                            MySqlCommand cmd;
+                            cmd = new MySqlCommand($"insert into chars (account_id,char_num,name,class,base_level,job_level,gold,str,agi,vit,inte,dex,luk,max_hp,hp,max_sp,sp,head,save_map,save_x,save_y) VALUES ('{cc.accountID}','{cc.CharNum}','{cc.CharName}','{cc.Class}','1','1','1000','{cc.str}','{cc.agi}','{cc.vit}','{cc.intel}','{cc.dex}','{cc.luk}','100','100','50','50','{cc.hair_id}','main','100','100');", cn);
+                            MySqlDataReader rd = cmd.ExecuteReader();
+
+
+                            PacketData p = new PacketData();
+                            p.Command = (uint)PacketHeader.HeaderCommand.ACT_CONFIRM;
+                            p.Argument1 = "true";
+
+                            data = AssemblyPacket(PacketHeader.PacketType.PacketData, p.Serialize());
+
+                            rd.Close();
+                            
+                            
+                            clientStream.Write(data, 0, data.Length);
+                            clientStream.Flush();
+                        }
+                    }
 
 
                     Console.WriteLine();
