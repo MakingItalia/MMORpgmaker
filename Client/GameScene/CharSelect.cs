@@ -221,7 +221,8 @@ namespace MMORpgmaker_Client.GameScene
         {
             if(char2.Command != (uint)25)
             {
-
+                game.gamestate._GameState = Enums.GameState.gameState.Game;
+                game.SwitchScene(game.gamestate);
             }
         }
 
@@ -229,7 +230,8 @@ namespace MMORpgmaker_Client.GameScene
         {
             if(char1.Command != (uint)25)
             {
-
+                game.gamestate._GameState = Enums.GameState.gameState.Game;
+                game.SwitchScene(game.gamestate);
             }
         }
 
