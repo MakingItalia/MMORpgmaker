@@ -2,6 +2,7 @@
 using Packet;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 
 MMORpgmakerServer.Server s = new MMORpgmakerServer.Server();
 s.Main();
@@ -159,99 +160,206 @@ namespace MMORpgmakerServer
         public void LoadTXTData()
         {
             //Loading Accounts
-            using(StreamReader sr = new StreamReader(Environment.CurrentDirectory + "/data/accounts.txt"))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                account acc = new account();
-                string ln;
-                while((ln = sr.ReadLine()) != null)
+                using (StreamReader sr = new StreamReader(Environment.CurrentDirectory + "/data/accounts.txt"))
                 {
-                    if (ln.StartsWith("//"))
-                        continue;
+                    account acc = new account();
+                    string ln;
+                    while ((ln = sr.ReadLine()) != null)
+                    {
+                        if (ln.StartsWith("//"))
+                            continue;
 
-                    string[] data = ln.Split(',');
-                    acc.id = int.Parse(data[0]);
-                    acc.username = data[1];
-                    acc.password = data[2];
-                    acc.email = data[3];
-                    acc.level = data[4];
-                    Account.Add(acc);
+                        string[] data = ln.Split(',');
+                        acc.id = int.Parse(data[0]);
+                        acc.username = data[1];
+                        acc.password = data[2];
+                        acc.email = data[3];
+                        acc.level = data[4];
+                        Account.Add(acc);
+                    }
+                } 
+            }
+
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                using (StreamReader sr = new StreamReader("data/accounts.txt"))
+                {
+                    account acc = new account();
+                    string ln;
+                    while ((ln = sr.ReadLine()) != null)
+                    {
+                        if (ln.StartsWith("//"))
+                            continue;
+
+                        string[] data = ln.Split(',');
+                        acc.id = int.Parse(data[0]);
+                        acc.username = data[1];
+                        acc.password = data[2];
+                        acc.email = data[3];
+                        acc.level = data[4];
+                        Account.Add(acc);
+                    }
                 }
             }
 
             //Loading Chars
-            using(StreamReader sr = new StreamReader(Environment.CurrentDirectory + "/data/chars.txt"))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                chars c = new chars();
-                string ln;
-                while((ln = sr.ReadLine())!= null)
+                using (StreamReader sr = new StreamReader(Environment.CurrentDirectory + "/data/chars.txt"))
                 {
-                    if (ln.StartsWith("//"))
-                        continue;
-
-                    if (ln.Length < 10)
-                        continue;
-
-                    if (ln.StartsWith(";"))
-                        continue;
-                    string[] linee = ln.Split(';');
-
-                    foreach(var s in linee)
+                    chars c = new chars();
+                    string ln;
+                    while ((ln = sr.ReadLine()) != null)
                     {
-                        string[] data = s.Split(',');
-                        if (data[0].Length <=0)
+                        if (ln.StartsWith("//"))
                             continue;
 
-                        //char_id,account_id,char_num,name,class,base_level,job_level
-                        c.char_id = int.Parse(data[0]);
-                        c.account_id = int.Parse(data[1]);
-                        c.char_num = int.Parse(data[2]);
-                        c.name = data[3];
-                        c.char_class = data[4];
-                        c.base_leve = int.Parse(data[5]);
-                        c.job_level = int.Parse(data[6]);
-                        c.base_exp = int.Parse(data[7]);
-                        c.job_exp = int.Parse(data[8]);
-                        c.gold = int.Parse(data[9]);
-                        c.str = int.Parse(data[10]);
-                        c.agi = int.Parse(data[11]);
-                        c.vit = int.Parse(data[12]);
-                        c.ints = int.Parse(data[13]);
-                        c.dex = int.Parse(data[14]);
-                        c.luk = int.Parse(data[15]);
-                        c.max_hp = int.Parse(data[16]);
-                        c.hp = int.Parse(data[17]);
-                        c.max_sp = int.Parse(data[18]);
-                        c.sp = int.Parse(data[19]);
-                        c.status_point = int.Parse(data[20]);
-                        c.skill_point = int.Parse(data[21]);
-                        c.option = data[22];
-                        c.karma = data[23];
-                        c.party_id = int.Parse(data[24]);
-                        c.guild_id = int.Parse(data[25]);
-                        c.pet_id = int.Parse(data[26]);
-                        c.body = int.Parse(data[27]);
-                        c.weapon = int.Parse(data[28]);
-                        c.shield = int.Parse(data[29]);
-                        c.head = int.Parse(data[30]);
-                        c.robe = int.Parse(data[31]);
-                        c.accessory1 = int.Parse(data[32]);
-                        c.accessory2 = int.Parse(data[33]);
-                        c.last_map = data[34];
-                        c.last_x = int.Parse(data[35]);
-                        c.last_y = int.Parse(data[36]);
-                        c.save_map = data[37];
-                        c.save_x = int.Parse(data[38]);
-                        c.save_y = int.Parse(data[39]);
-                        c.partner_id = int.Parse(data[40]);
-                        c.online = bool.Parse(data[41]);
-                        c.unban_time = int.Parse(data[42]);
-                        c.sex = data[43];
-                        c.clan_id = int.Parse(data[44]);
-                        c.show_equip = bool.Parse(data[45]);
+                        if (ln.Length < 10)
+                            continue;
 
-                        Chars.Add(c);
+                        if (ln.StartsWith(";"))
+                            continue;
+                        string[] linee = ln.Split(';');
+
+                        foreach (var s in linee)
+                        {
+                            string[] data = s.Split(',');
+                            if (data[0].Length <= 0)
+                                continue;
+
+                            //char_id,account_id,char_num,name,class,base_level,job_level
+                            c.char_id = int.Parse(data[0]);
+                            c.account_id = int.Parse(data[1]);
+                            c.char_num = int.Parse(data[2]);
+                            c.name = data[3];
+                            c.char_class = data[4];
+                            c.base_leve = int.Parse(data[5]);
+                            c.job_level = int.Parse(data[6]);
+                            c.base_exp = int.Parse(data[7]);
+                            c.job_exp = int.Parse(data[8]);
+                            c.gold = int.Parse(data[9]);
+                            c.str = int.Parse(data[10]);
+                            c.agi = int.Parse(data[11]);
+                            c.vit = int.Parse(data[12]);
+                            c.ints = int.Parse(data[13]);
+                            c.dex = int.Parse(data[14]);
+                            c.luk = int.Parse(data[15]);
+                            c.max_hp = int.Parse(data[16]);
+                            c.hp = int.Parse(data[17]);
+                            c.max_sp = int.Parse(data[18]);
+                            c.sp = int.Parse(data[19]);
+                            c.status_point = int.Parse(data[20]);
+                            c.skill_point = int.Parse(data[21]);
+                            c.option = data[22];
+                            c.karma = data[23];
+                            c.party_id = int.Parse(data[24]);
+                            c.guild_id = int.Parse(data[25]);
+                            c.pet_id = int.Parse(data[26]);
+                            c.body = int.Parse(data[27]);
+                            c.weapon = int.Parse(data[28]);
+                            c.shield = int.Parse(data[29]);
+                            c.head = int.Parse(data[30]);
+                            c.robe = int.Parse(data[31]);
+                            c.accessory1 = int.Parse(data[32]);
+                            c.accessory2 = int.Parse(data[33]);
+                            c.last_map = data[34];
+                            c.last_x = int.Parse(data[35]);
+                            c.last_y = int.Parse(data[36]);
+                            c.save_map = data[37];
+                            c.save_x = int.Parse(data[38]);
+                            c.save_y = int.Parse(data[39]);
+                            c.partner_id = int.Parse(data[40]);
+                            c.online = bool.Parse(data[41]);
+                            c.unban_time = int.Parse(data[42]);
+                            c.sex = data[43];
+                            c.clan_id = int.Parse(data[44]);
+                            c.show_equip = bool.Parse(data[45]);
+
+                            Chars.Add(c);
+                        }
+
                     }
-                    
+                }
+            }
+
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                using (StreamReader sr = new StreamReader("data/chars.txt"))
+                {
+                    chars c = new chars();
+                    string ln;
+                    while ((ln = sr.ReadLine()) != null)
+                    {
+                        if (ln.StartsWith("//"))
+                            continue;
+
+                        if (ln.Length < 10)
+                            continue;
+
+                        if (ln.StartsWith(";"))
+                            continue;
+                        string[] linee = ln.Split(';');
+
+                        foreach (var s in linee)
+                        {
+                            string[] data = s.Split(',');
+                            if (data[0].Length <= 0)
+                                continue;
+
+                            //char_id,account_id,char_num,name,class,base_level,job_level
+                            c.char_id = int.Parse(data[0]);
+                            c.account_id = int.Parse(data[1]);
+                            c.char_num = int.Parse(data[2]);
+                            c.name = data[3];
+                            c.char_class = data[4];
+                            c.base_leve = int.Parse(data[5]);
+                            c.job_level = int.Parse(data[6]);
+                            c.base_exp = int.Parse(data[7]);
+                            c.job_exp = int.Parse(data[8]);
+                            c.gold = int.Parse(data[9]);
+                            c.str = int.Parse(data[10]);
+                            c.agi = int.Parse(data[11]);
+                            c.vit = int.Parse(data[12]);
+                            c.ints = int.Parse(data[13]);
+                            c.dex = int.Parse(data[14]);
+                            c.luk = int.Parse(data[15]);
+                            c.max_hp = int.Parse(data[16]);
+                            c.hp = int.Parse(data[17]);
+                            c.max_sp = int.Parse(data[18]);
+                            c.sp = int.Parse(data[19]);
+                            c.status_point = int.Parse(data[20]);
+                            c.skill_point = int.Parse(data[21]);
+                            c.option = data[22];
+                            c.karma = data[23];
+                            c.party_id = int.Parse(data[24]);
+                            c.guild_id = int.Parse(data[25]);
+                            c.pet_id = int.Parse(data[26]);
+                            c.body = int.Parse(data[27]);
+                            c.weapon = int.Parse(data[28]);
+                            c.shield = int.Parse(data[29]);
+                            c.head = int.Parse(data[30]);
+                            c.robe = int.Parse(data[31]);
+                            c.accessory1 = int.Parse(data[32]);
+                            c.accessory2 = int.Parse(data[33]);
+                            c.last_map = data[34];
+                            c.last_x = int.Parse(data[35]);
+                            c.last_y = int.Parse(data[36]);
+                            c.save_map = data[37];
+                            c.save_x = int.Parse(data[38]);
+                            c.save_y = int.Parse(data[39]);
+                            c.partner_id = int.Parse(data[40]);
+                            c.online = bool.Parse(data[41]);
+                            c.unban_time = int.Parse(data[42]);
+                            c.sex = data[43];
+                            c.clan_id = int.Parse(data[44]);
+                            c.show_equip = bool.Parse(data[45]);
+
+                            Chars.Add(c);
+                        }
+
+                    }
                 }
             }
 
