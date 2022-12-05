@@ -14,6 +14,7 @@ namespace MMORpgmaker_Client.Enums
             Game,
             CharSelection,
             CharCreation
+            
         }
 
         public gameState _GameState = gameState.TitleScreen;

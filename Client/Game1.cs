@@ -67,6 +67,7 @@ namespace MMORpgmaker_Client
             titleScreen = new GameScene.TitleScreen(GraphicsDevice, Content, font, Symb);
             charselection = new GameScene.CharSelect(GraphicsDevice, Content,skin, font, Symb, this,client);
             charcreation = new GameScene.CharCreation(GraphicsDevice, Content, skin, font, Symb, this, client);
+            scenegame = new GameScene.SceneGame(GraphicsDevice, Content, skin, font, Symb, this, client);
 
             _Mouse = util.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/Mouse/Cursor.png", GraphicsDevice);
 
@@ -127,6 +128,12 @@ namespace MMORpgmaker_Client
                 charcreation.LoadContent();
             }
 
+            if(gamestate._GameState == GameState.gameState.Game)
+            {
+                scenegame.LoadContent(account_id);
+            }
+
+
 
         }
 
@@ -169,6 +176,16 @@ namespace MMORpgmaker_Client
 
                 charcreation.Draw(_spriteBatch);
 
+                m.Draw(_spriteBatch);
+
+                _spriteBatch.Draw(_Mouse, new Vector2(mousex, mousey), Color.White);
+                _spriteBatch.End();
+            }
+
+            if(gamestate._GameState == GameState.gameState.Game)
+            {
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                scenegame.Draw(_spriteBatch);
                 m.Draw(_spriteBatch);
 
                 _spriteBatch.Draw(_Mouse, new Vector2(mousex, mousey), Color.White);

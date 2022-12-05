@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MMORpgmaker_Client.GameScene
 {
-    internal class CharSelect
+    public class CharSelect
     {
         Game1 game;
         GraphicsDevice d;
@@ -33,7 +33,7 @@ namespace MMORpgmaker_Client.GameScene
         const int sel_w = 247;
         const int sel_h = 188;
         Rectangle box1, box2, box3;
-        int select_id = 1;
+        public int select_id = 1;
 
         int acc_id = 0;
 
@@ -212,8 +212,8 @@ namespace MMORpgmaker_Client.GameScene
         {
             if (char3.Command != (uint)25)
             {
-                game.m.MessageText = "ok";
-                game.m.ShowMessage();
+                game.gamestate._GameState = Enums.GameState.gameState.Game;
+                game.SwitchScene(game.gamestate);
             }
         }
 
@@ -441,10 +441,23 @@ namespace MMORpgmaker_Client.GameScene
 
 
             //Draw Graphics
-            if(char2.Command != (uint)25)
+            if (char1.Command != (uint)25)
             {
-                //spriteBatch.Draw(char2_body, new Vector2(250, 140), new Rectangle(0, 0, 32, 48), Color.White);
-                //spriteBatch.Draw(char2_head, new Vector2(250, 140), new Rectangle(0, 0, 32, 48), Color.White);
+                spriteBatch.Draw(char1_body, new Vector2(155, 140), new Rectangle(0, 0, 32, 48), Color.White);
+                spriteBatch.Draw(char1_head, new Vector2(155, 140), new Rectangle(0, 0, 32, 48), Color.White);
+            }
+
+
+            if (char2.Command != (uint)25)
+            {
+                spriteBatch.Draw(char2_body, new Vector2(390, 140), new Rectangle(0, 0, 32, 48), Color.White);
+                spriteBatch.Draw(char2_head, new Vector2(390, 140), new Rectangle(0, 0, 32, 48), Color.White);
+            }
+
+            if (char3.Command != (uint)25)
+            {
+                spriteBatch.Draw(char3_body, new Vector2(615, 140), new Rectangle(0, 0, 32, 48), Color.White);
+                spriteBatch.Draw(char3_head, new Vector2(615, 140), new Rectangle(0, 0, 32, 48), Color.White);
             }
 
 
