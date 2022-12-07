@@ -286,7 +286,7 @@ namespace MMORpgmakerServer
 
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                using (StreamReader sr = new StreamReader("data/chars.txt"))
+                using (StreamReader sr = new StreamReader(Environment.CurrentDirectory + "data/chars.txt"))
                 {
                     chars c = new chars();
                     string ln;

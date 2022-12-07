@@ -26,7 +26,9 @@ namespace MMORpgmaker_Client
         public GameClient client = new GameClient("127.0.0.1", 6400);
         public int account_id = 0;
         public int mousex, mousey;
-
+        Viewport gioco = new Viewport();
+        Viewport main = new Viewport();
+       
         //Game State
         public GameState gamestate = new GameState(GameState.gameState.TitleScreen);
 
@@ -39,8 +41,11 @@ namespace MMORpgmaker_Client
             _graphics.PreferredBackBufferHeight = 600;          
             Content.RootDirectory = "Content";
             _graphics.IsFullScreen = false;
-            IsMouseVisible = true;
+            IsMouseVisible = false;
             _graphics.ApplyChanges();
+            GraphicsDevice.Viewport = main;
+            cam.Pos = new Vector2(400f, 300f);
+
         }
 
         protected override void Initialize()
@@ -77,6 +82,9 @@ namespace MMORpgmaker_Client
             m = new Message(skin, GraphicsDevice, font, "Unkow Error!");
             msg = new Msgbox(new Vector2(250, 300), skin, font,client, this);
             msg.refereced = m;
+
+            cam = new Camera2d();
+            
         }
 
 
@@ -108,6 +116,11 @@ namespace MMORpgmaker_Client
 
             }
 
+            if(gamestate._GameState == GameState.gameState.Game)
+            {
+                scenegame.Update(gameTime, kb, ms);
+            }
+
             mousex = ms.X;
             mousey = ms.Y;
 
@@ -130,6 +143,8 @@ namespace MMORpgmaker_Client
 
             if(gamestate._GameState == GameState.gameState.Game)
             {
+                
+                GraphicsDevice.Viewport = gioco;
                 scenegame.LoadContent(account_id);
             }
 
@@ -184,12 +199,21 @@ namespace MMORpgmaker_Client
 
             if(gamestate._GameState == GameState.gameState.Game)
             {
-                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                scenegame.Draw(_spriteBatch);
-                m.Draw(_spriteBatch);
+                GraphicsDevice.Clear(Color.CornflowerBlue);
 
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,null,null,null,null,cam.get_transformation(GraphicsDevice));
+                scenegame.Draw(_spriteBatch);
+                
+
+                               
+                _spriteBatch.End();
+
+                _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                m.Draw(_spriteBatch);
+                scenegame.DrawUI(_spriteBatch);
                 _spriteBatch.Draw(_Mouse, new Vector2(mousex, mousey), Color.White);
                 _spriteBatch.End();
+
             }
 
             base.Draw(gameTime);

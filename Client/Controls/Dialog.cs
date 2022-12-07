@@ -12,6 +12,12 @@ namespace MMORpgmaker.Controls
     public class Dialog
     {
 
+        public delegate void TalkCompleted();
+        public delegate void TalkShow();
+
+        public event TalkCompleted OnTalkCompleted;
+        public event TalkShow OnTalkShow;
+
         private Vector2 _position;
 
 
@@ -72,17 +78,35 @@ namespace MMORpgmaker.Controls
             bottom_right = u.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/msg_bottom_right.PNG", dev);
             bottom = u.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/msg_bottom.PNG", dev);
             cursor = u.LoadFromFileStream(Environment.CurrentDirectory + "/Content/SystemSkin/msg_cursor.PNG", dev);
+
+            OnTalkCompleted += Dialog_OnTalkCompleted;
+            OnTalkShow += Dialog_OnTalkShow;
         }
 
+        private void Dialog_OnTalkShow()
+        {
+            
+        }
+
+        private void Dialog_OnTalkCompleted()
+        {
+            
+        }
 
         public void Show(string text, Vector2 position)
         {
             Text = text;
             stringSize = f.MeasureString(text);
-            show = true;
+
+            if(stringSize.X < 48)
+            {
+                stringSize = new Vector2(48, stringSize.Y);
+            }
 
             Position = position;
             origin = position;
+            show = true;
+            OnTalkShow();
             timer = TIMER;
 
         }
@@ -90,6 +114,7 @@ namespace MMORpgmaker.Controls
         public void Hide()
         {
             show = false;
+            OnTalkCompleted();
         }
 
         public void Draw(SpriteBatch sprite)
@@ -127,10 +152,14 @@ namespace MMORpgmaker.Controls
 
         public void Update(GameTime gameTime, KeyboardState kb, MouseState ms,Vector2 pos)
         {
-            Position = pos;
-            origin = pos;
-            Position = new Vector2(Position.X, Position.Y + 20);
-            origin = new Vector2(origin.X-32, origin.Y + 5);
+            if (show)
+            {
+                Position = pos;
+                origin = pos;
+                Position = new Vector2(Position.X, Position.Y + 20);
+                origin = new Vector2(origin.X - 32, origin.Y + 5);
+            }
+
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
             timer -= elapsed;
             if (timer < 0)

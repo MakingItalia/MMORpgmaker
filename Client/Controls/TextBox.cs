@@ -11,6 +11,17 @@ using MMORpgmaker_Client;
 
 namespace MMORpgmaker.Controls
 {
+    public class TextBox_EventArgs : EventArgs
+    {
+        string text;
+        public TextBox_EventArgs(string text)
+        {
+            this.text = text;
+        }
+
+        public string Text { get { return text; } }
+    }
+
     public class TextBox : IControls
     {
 
@@ -29,9 +40,17 @@ namespace MMORpgmaker.Controls
         public string passwords;
         bool enabled = true;
         int counter2 = 0;
+        private bool draw_border = true;
+        private bool is_dialogobx = false;
 
         public bool Enabled { get => enabled; set => enabled = value; }
-        
+        public bool DrawBorder { get => draw_border; set => draw_border = value; }
+       
+        /// <summary>
+        /// At Enter press, Text is Clear
+        /// </summary>
+        public bool Is_DialogBox { get => is_dialogobx; set => is_dialogobx = value; }
+        bool send = false;
 
         public Vector2 Position
         {
@@ -55,7 +74,7 @@ namespace MMORpgmaker.Controls
 
         public delegate void MouseDown();
         public delegate void KeyDown();
-        public delegate void TextChanged();
+        public delegate void TextChanged(TextBox_EventArgs e);
 
         public event MouseDown OnMouseDown;
         public event KeyDown OnKeyDown;
@@ -72,13 +91,10 @@ namespace MMORpgmaker.Controls
             OnMouseDown += new MouseDown(TextBox_OnMouseDown);
 
             keyboard = new KeyboardMapper(Text);
-            OnTextChanged += new TextChanged(TextBox_OnTextChanged);
+            OnTextChanged += TextBox_OnTextChanged1;
         }
 
-
-
-
-        void TextBox_OnTextChanged()
+        private void TextBox_OnTextChanged1(TextBox_EventArgs e)
         {
             if (IsPassword)
             {
@@ -92,10 +108,16 @@ namespace MMORpgmaker.Controls
             }
         }
 
-
+  
 
         void TextBox_OnMouseDown()
         {
+            if(send)
+            {
+                Text = "";
+                send = false;
+            }
+
             if (Enabled && counter2 == 0) 
             {
                 if (focus)
@@ -124,7 +146,7 @@ namespace MMORpgmaker.Controls
         public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sprite)
         {
 
-           
+           if(DrawBorder)
             sprite.Draw(TxTex, Position, txbox_area, Color.White);
             
             
@@ -164,7 +186,7 @@ namespace MMORpgmaker.Controls
 
             //If mouse leave from Controls, Automatically unfocus
             Rectangle r2 = new Rectangle((int)Position.X, (int)Position.Y, 230, 18);
-            if(!r2.Contains(new Point(ms.X,ms.Y)))
+            if(!r2.Contains(new Point(ms.X,ms.Y)) && !is_dialogobx)
             {
                 focus = false;
                 caret = false;
@@ -178,15 +200,18 @@ namespace MMORpgmaker.Controls
 
                 if (oldtx != Text)
                 {
-                    OnTextChanged();
+                    TextBox_EventArgs ev = new TextBox_EventArgs(Text);
+                    OnTextChanged(ev);
                 }
             }
+
 
             if (keyboard.enter)
             {
                 focus = false; 
                 caret = false;
                 keyboard.enter = false;
+                send = true;
             }
         }
     }

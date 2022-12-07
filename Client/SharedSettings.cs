@@ -2,6 +2,7 @@
 using MMORpgmaker.Controls;
 using MMORpgmaker_Client.Controls;
 using MMORpgmaker_Client.GameScene;
+using Packet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,5 +36,7 @@ namespace MMORpgmaker_Client
 
         SkinSystem skin;
         Dialog dlg;
+        public bool edit_mode = true;
+        public CharPaket SelectedChar = new CharPaket();
     }
 }

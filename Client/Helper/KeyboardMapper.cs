@@ -278,10 +278,22 @@ namespace MMORpgmaker.Helper
                         Text = Text + "9";
                         counter = 10;
                     }
+                    if(l.Contains(Keys.Space))
+                    {
+                        Text = Text + " ";
+                        counter = 10;
+                    }
                     if(l.Contains(Keys.Back))
                     {
-                        Text = Text.Substring(0, Text.Length - 1);
-                        counter = 10;
+                        if (Text.Length > 0)
+                        {
+                            Text = Text.Substring(0, Text.Length - 1);
+                            counter = 10;
+                        }
+                    }
+                    if(l.Contains(Keys.Enter))
+                    {
+                        enter = true;
                     }
 
 
